@@ -7,12 +7,12 @@ unless File.exist?(file)
   exit
 end
 
-FIELDS = %w(url title year country date genre duration stars produces actors)
+FIELDS = %i(url title year country date genre duration stars produces actors)
 
 File.open(file,'r').map do |line|
   film = FIELDS.zip(line.split('|')).to_h
 
-  if film['title'].include?("Time")
-    puts "title: #{film['title']} starts: #{"*" * film['stars'].to_i}"
+  if film[:title].include?("Time")
+    puts "title: #{film[:title]} starts: #{"*" * film[:stars].to_i}"
   end
 end
