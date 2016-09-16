@@ -1,6 +1,4 @@
 #!/home/andrey/.rbenv/shims/ruby
-require 'time'
-
 def print_films(films)
   films.map do |film|
     puts "#{film[:title]}: #{film[:producer]} (#{film[:date]}; #{film[:genre].join("/").to_s}) - #{film[:duration]} min"
