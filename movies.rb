@@ -1,14 +1,18 @@
 #!/home/andrey/.rbenv/shims/ruby
-good = ["The Matrix", "Leon"]
 
-if good.include?(ARGV[0])
-  puts "#{ARGV[0]} is a good movie"
+file = ARGV[0] || "movies.txt"
+
+unless File.exist?(file)
+  puts "File #{file} does not exist"
   exit
 end
 
-if ARGV[0] == "Titanic"
-  puts "Titanic is a bad movide"
-  exit
-end
+FIELDS = %i(url title year country date genre duration stars produces actors)
 
-puts "Havent't seen #{ARGV[0]} yet"
+File.open(file,'r').map do |line|
+  film = FIELDS.zip(line.split('|')).to_h
+
+  if film[:title].include?("Time")
+    puts "title: #{film[:title]} starts: #{"*" * film[:stars].to_i}"
+  end
+end
