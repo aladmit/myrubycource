@@ -1,7 +1,7 @@
 #!/home/andrey/.rbenv/shims/ruby
 def print_films(films)
   films.map do |film|
-    puts "#{film[:title]}: #{film[:producer]} (#{film[:date]}; #{film[:genre].join("/").to_s}) - #{film[:duration]} min"
+    puts "#{film[:title]}: #{film[:producer]} (#{film[:date]}; #{film[:genre].join("/")}) - #{film[:duration]} min"
   end
 end
 
@@ -12,28 +12,23 @@ unless File.exist?(file)
   exit
 end
 
-films = []
-
 FIELDS = %i(url title year country date genre duration stars producer actors)
 
-File.open(file,'r').map do |line|
+films = File.open(file, 'r').map do |line|
   film = FIELDS.zip(line.split('|')).to_h
   film[:duration] = film[:duration].split(' ')[0].to_i
   film[:genre] = film[:genre].split(',')
-  films.push film
+  film
 end
 
 puts "Long films:"
-films.sort_by! { |film| film[:duration] }
-print_films(films.reverse[0..4])
+print_films(films.sort_by { |film| film[:duration] }.last(5))
 
-puts "Camedy"
-films.sort_by! { |film| film[:date] }
-print_films(films[0..9])
+puts "Camedy:"
+print_films(films.sort_by{ |film| film[:genre].include?("Camedy") }.sort_by { |film| film[:date] }.first(10))
 
-puts "Producers"
-producers = []
-films.map { |film| producers.push film[:producer] }
-producers.sort_by { |man| man.split(' ')[-1] }.uniq.map { |man| puts man }
+puts "Producers:"
+producers = films.map { |film| film[:producer] }.sort_by { |man| man.split(' ')[-1] }.uniq
+producers.map { |man| puts man }
 
 puts films.count { |film| film[:country] != 'USA' }
