@@ -19,8 +19,8 @@ class MovieCollection
   end
 
   def filter(params)
-    params.reduce(@films) do |films, hash|
-      films.select { |film| film.send(hash[0]).include?(hash[1]) }
+    params.reduce(@films) do |films, (key, value)|
+      films.select { |film| film.send(key).include?(value) }
     end
   end
 
@@ -34,9 +34,7 @@ class MovieCollection
           stats[key] = value.count
       end
     else
-      @films.map(&:field).flatten.sort.group_by(&:itself).each do |key, value|
-        stats[key] = value.count
-      end
+      stats = @films.map(&field).flatten.sort.group_by(&:itself).map { |key, value| [key, value.count] }.to_h
     end
     stats
   end

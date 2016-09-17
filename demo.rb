@@ -17,6 +17,7 @@ unless File.exist?(file)
 end
 
 films = MovieCollection.new(file)
+pry
 puts "Long films:"
 print_films(films.sort_by(:duration).last(5))
 puts "Comedy:"
