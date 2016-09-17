@@ -24,11 +24,11 @@ end
 puts "Long films:"
 print_films(films.sort_by { |film| film[:duration] }.last(5))
 
-puts "Camedy:"
-print_films(films.sort_by{ |film| film[:genre].include?("Camedy") }.sort_by { |film| film[:date] }.first(10))
+puts "Comedy:"
+print_films(films.select { |film| film[:genre].include?("Comedy") }.sort_by { |film| film[:date] }.first(10))
 
 puts "Producers:"
-producers = films.map { |film| film[:producer] }.sort_by { |man| man.split(' ')[-1] }.uniq
+producers = films.map { |film| film[:producer] }.sort_by { |man| man.split(' ').last }.uniq
 producers.map { |man| puts man }
 
 puts films.count { |film| film[:country] != 'USA' }
