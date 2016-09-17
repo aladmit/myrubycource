@@ -1,6 +1,7 @@
 #!/home/andrey/.rbenv/shims/ruby
 require './movies.rb'
 require 'pry'
+require './exeptions.rb'
 
 def print_films(films)
   films.map do |film|
@@ -30,4 +31,10 @@ puts films.all.count { |film| film.country != 'USA' }
 puts "Statistics"
 films.stats(:month).each do |key, value|
   puts "#{key}: #{value}"
+end
+
+begin
+  puts films.all[0].has_genre?('bla')
+rescue GenreDoesNotExist
+  puts "Film does not have a genre"
 end

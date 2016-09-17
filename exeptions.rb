@@ -1,0 +1,2 @@
+class GenreDoesNotExist < Exception
+end

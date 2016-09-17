@@ -14,6 +14,10 @@ class Movie
   end
 
   def has_genre?(genre)
-    self.genre.include?(genre)
+   if self.genre.include?(genre)
+     true
+    else
+     raise GenreDoesNotExist
+   end
   end
 end
