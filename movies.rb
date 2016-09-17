@@ -33,3 +33,5 @@ print_films(films.select { |film| film.genre.include?("Comedy") }.sort_by { |fil
 puts "Producers:"
 producers = films.map { |film| film.producer }.sort_by { |man| man.split(' ').last }.uniq
 producers.map { |man| puts man }
+
+puts films.count { |film| film.country != 'USA' }
