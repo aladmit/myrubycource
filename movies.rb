@@ -6,7 +6,7 @@ class MovieCollection
 
   def initialize(file)
     @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-      Movie.new(line.to_h)
+      Movie.new(line.to_h, self)
     end
   end
 
@@ -39,5 +39,9 @@ class MovieCollection
       end
     end
     stats
+  end
+
+  def genres
+    @films.map(&:genre).flatten.uniq
   end
 end

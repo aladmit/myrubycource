@@ -1,7 +1,7 @@
 class Movie
   attr_accessor :url, :title, :year, :country, :date, :genre, :duration, :stars, :producer, :actors
 
-  def initialize(params)
+  def initialize(params, collection)
     @url = params[:url]
     @title = params[:title]
     @year = params[:year]
@@ -11,13 +11,18 @@ class Movie
     @duration = params[:stars].split(' ')[0].to_i
     @producer = params[:producer]
     @actors = params[:actors].split(',')
+    @collection = collection
   end
 
   def has_genre?(genre)
    if self.genre.include?(genre)
      true
     else
-     raise GenreDoesNotExist
+      if @collection.genres.include?(genre)
+        false
+      else
+       raise GenreDoesNotExist
+      end
    end
   end
 end
