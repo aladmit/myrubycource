@@ -1,45 +1,60 @@
-#!/home/andrey/.rbenv/shims/ruby
 require 'csv'
-require 'ostruct'
+require './movie.rb'
 
-def print_films(films)
-  films.map do |film|
-    puts "#{film.title}: #{film.producer} (#{film.date}; #{film.genre.join('/')}) - #{film.duration} min"
+class MovieCollection
+  FIELDS = %i(url title year country date genre duration stars producer actors)
+
+  def initialize(file)
+    @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
+      Movie.new(line.to_h)
+    end
+  end
+
+  def all
+    @films
+  end
+
+  def sort_by(field)
+    @films.sort_by { |film| film.send(field) }
+  end
+
+  def filter(params)
+    films = @films
+    params.map do |key, value|
+      films = films.select { |film| film.send(key).include?(value) }
+    end.flatten
+  end
+
+  def stats(field)
+    stats = {}
+
+    case field
+    when :producer
+      @films.group_by { |film| film.send(field) }.each do |key,value|
+        stats[key] = value.count
+      end
+    when :actor
+      @films.map(&:actors).flatten.sort.group_by(&:itself).each do |key, value|
+        stats[key] = value.count
+      end
+    when :year
+      @films.map(&:year).flatten.sort.group_by(&:itself).each do |key, value|
+        stats[key] = value.count
+      end
+    when :month
+      @films.reject { |film| film.date[1].nil? }.map { |film| film.date[1] }
+        .sort.group_by(&:itself).each do |key, value|
+          stats[key] = value.count
+      end
+    when :country
+      @films.map(&:country).group_by(&:itself).each do |key, value|
+        stats[key] = value.count
+      end
+    when :genre
+      @films.map(&:genre).flatten.sort.group_by(&:itself).each do |key, value|
+        stats[key] = value.count
+      end
+    end
+    stats
   end
 end
-
-file = ARGV[0] || "movies.txt"
-
-unless File.exist?(file)
-  puts "File #{file} does not exist"
-  exit
-end
-
-FIELDS = %i(url title year country date genre duration stars producer actors)
-
-films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-  film = OpenStruct.new(line.to_h)
-  film.duration = film.duration.split(' ')[0].to_i
-  film.genre = film.genre.split(',')
-  film.date = film.date.split('-')
-  film
-end
-
-puts "Long films:"
-print_films(films.sort_by(&:duration).last(5))
-
-puts "Comedy:"
-print_films(films.select { |film| film.genre.include?("Comedy") }.sort_by(&:date).first(10))
-
-puts "Producers:"
-producers = films.map(&:producer).sort_by { |man| man.split(' ').last }.uniq
-producers.map { |man| puts man }
-
-puts films.count { |film| film.country != 'USA' }
-
-puts "Statistics"
-dates = films.reject {|e| e.date.count < 2 }.map do |film|
-  film.date[1]
-end
-
-dates.sort.group_by(&:itself).each { |key, value| puts "#{key}: #{value.count}" }
