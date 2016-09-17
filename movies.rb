@@ -19,10 +19,9 @@ class MovieCollection
   end
 
   def filter(params)
-    films = @films
-    params.map do |key, value|
-      films = films.select { |film| film.send(key).include?(value) }
-    end.flatten
+    params.reduce(@films) do |films, hash|
+      films.select { |film| film.send(hash[0]).include?(hash[1]) }
+    end
   end
 
   def stats(field)
