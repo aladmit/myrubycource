@@ -1,7 +1,6 @@
 #!/home/andrey/.rbenv/shims/ruby
 require 'csv'
 require 'ostruct'
-require 'date'
 
 def print_films(films)
   films.map do |film|
@@ -18,30 +17,29 @@ end
 
 FIELDS = %i(url title year country date genre duration stars producer actors)
 
-films = CSV.read(file, {col_sep: '|'}).map do |line|
-  film = OpenStruct.new(FIELDS.zip(line).to_h)
+films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
+  film = OpenStruct.new(line.to_h)
   film.duration = film.duration.split(' ')[0].to_i
   film.genre = film.genre.split(',')
+  film.date = film.date.split('-')
   film
 end
 
 puts "Long films:"
-print_films(films.sort_by { |film| film.duration }.last(5))
+print_films(films.sort_by(&:duration).last(5))
 
 puts "Comedy:"
-print_films(films.select { |film| film.genre.include?("Comedy") }.sort_by { |film| film.date }.first(10))
+print_films(films.select { |film| film.genre.include?("Comedy") }.sort_by(&:date).first(10))
 
 puts "Producers:"
-producers = films.map { |film| film.producer }.sort_by { |man| man.split(' ').last }.uniq
+producers = films.map(&:producer).sort_by { |man| man.split(' ').last }.uniq
 producers.map { |man| puts man }
 
 puts films.count { |film| film.country != 'USA' }
 
 puts "Statistics"
-dates = films.map do |film|
-  Date.parse(film.date) if film.date.split('-').count >= 3
-end.compact
-
-(01..12).each do |month|
-  puts "#{month}: #{dates.count { |e| e.month == month }}"
+dates = films.reject {|e| e.date.count < 2 }.map do |film|
+  film.date[1]
 end
+
+dates.sort.group_by(&:itself).each { |key, value| puts "#{key}: #{value.count}" }
