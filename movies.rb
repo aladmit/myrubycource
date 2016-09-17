@@ -1,6 +1,7 @@
 #!/home/andrey/.rbenv/shims/ruby
 require 'csv'
 require 'ostruct'
+require 'date'
 
 def print_films(films)
   films.map do |film|
@@ -35,3 +36,12 @@ producers = films.map { |film| film.producer }.sort_by { |man| man.split(' ').la
 producers.map { |man| puts man }
 
 puts films.count { |film| film.country != 'USA' }
+
+puts "Statistics"
+dates = films.map do |film|
+  Date.parse(film.date) if film.date.split('-').count >= 3
+end.compact
+
+(01..12).each do |month|
+  puts "#{month}: #{dates.count { |e| e.month == month }}"
+end
