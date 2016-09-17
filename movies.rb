@@ -15,7 +15,7 @@ class MovieCollection
   end
 
   def sort_by(field)
-    @films.sort_by { |film| film.send(field) }
+    @films.sort_by(&field)
   end
 
   def filter(params)
@@ -29,29 +29,13 @@ class MovieCollection
     stats = {}
 
     case field
-    when :producer
-      @films.group_by { |film| film.send(field) }.each do |key,value|
-        stats[key] = value.count
-      end
-    when :actor
-      @films.map(&:actors).flatten.sort.group_by(&:itself).each do |key, value|
-        stats[key] = value.count
-      end
-    when :year
-      @films.map(&:year).flatten.sort.group_by(&:itself).each do |key, value|
-        stats[key] = value.count
-      end
     when :month
       @films.reject { |film| film.date[1].nil? }.map { |film| film.date[1] }
         .sort.group_by(&:itself).each do |key, value|
           stats[key] = value.count
       end
-    when :country
-      @films.map(&:country).group_by(&:itself).each do |key, value|
-        stats[key] = value.count
-      end
-    when :genre
-      @films.map(&:genre).flatten.sort.group_by(&:itself).each do |key, value|
+    else
+      @films.map(&:field).flatten.sort.group_by(&:itself).each do |key, value|
         stats[key] = value.count
       end
     end
