@@ -14,15 +14,8 @@ class Movie
     @collection = collection
   end
 
-  def has_genre?(genre)
-   if self.genre.include?(genre)
-     true
-    else
-      if @collection.genres.include?(genre)
-        false
-      else
-       raise GenreDoesNotExist
-      end
-   end
+  def has_genre?(name)
+    raise GenreDoesNotExist unless @collection.genres.include?(name)
+    genre.include?(name)
   end
 end
