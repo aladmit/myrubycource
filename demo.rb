@@ -3,12 +3,6 @@ require './movies.rb'
 require 'pry'
 require './exeptions.rb'
 
-def print_films(films)
-  films.map do |film|
-    puts "#{film.title}: #{film.producer} (#{film.date}; #{film.genre.join('/')}) - #{film.duration} min"
-  end
-end
-
 file = ARGV[0] || "movies.txt"
 
 unless File.exist?(file)
@@ -19,9 +13,9 @@ end
 films = MovieCollection.new(file)
 pry
 puts "Long films:"
-print_films(films.sort_by(:duration).last(5))
+puts films.sort_by(:duration).last(5)
 puts "Comedy:"
-print_films(films.filter(genre: 'Comedy').sort_by(&:date).first(10))
+puts films.filter(genre: 'Comedy').sort_by(&:date).first(10)
 
 puts "Producers:"
 producers = films.all.map(&:producer).sort_by { |man| man.split(' ').last }.uniq

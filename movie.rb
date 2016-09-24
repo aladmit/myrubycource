@@ -18,4 +18,12 @@ class Movie
     raise GenreDoesNotExist unless @collection.genres.include?(name)
     genre.include?(name)
   end
+
+  def to_s
+    "#{title}: #{producer} (#{date}; #{genre.join('/')}) - #{duration} min"
+  end
+
+  def inspect
+    "Movie(title: #{title}, producer: #{producer}, date: #{date}, genres: #{genre.join('/')} duration: #{duration})"
+  end
 end
