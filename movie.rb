@@ -19,11 +19,22 @@ class Movie
     genre.include?(name)
   end
 
+  def matches?(filter, value)
+    if filter == :year
+      return (value) === send(filter).to_i
+    end
+    if send(filter).class == Array
+      send(filter).any? { |v| Regexp.new(value) === v }
+    else
+      send(filter).include?(value)
+    end
+  end
+
   def to_s
     "#{title}: #{producer} (#{date}; #{genre.join('/')}) - #{duration} min"
   end
 
   def inspect
-    "Movie(title: #{title}, producer: #{producer}, date: #{date}, genres: #{genre.join('/')} duration: #{duration})"
+    "#<Movie(title=#{title}, producer=#{producer}, date=#{date}, genres=#{genre.join('/')} duration=#{duration}, actors=#{actors})>"
   end
 end

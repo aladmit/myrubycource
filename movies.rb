@@ -20,7 +20,7 @@ class MovieCollection
 
   def filter(params)
     params.reduce(@films) do |films, (key, value)|
-      films.select { |film| film.send(key).include?(value) }
+      films.select { |film| film.matches?(key, value) }
     end
   end
 
