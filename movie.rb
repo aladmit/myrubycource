@@ -26,7 +26,7 @@ class Movie
     if send(filter).class == Array
       send(filter).any? { |v| Regexp.new(value) === v }
     else
-      send(filter).include?(value)
+      Regexp.new(value) === send(filter)
     end
   end
 
