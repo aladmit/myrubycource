@@ -30,10 +30,11 @@ class MovieCollection
     else
       @films.map(&field).flatten
     end
+    @films.map(&value_for_stats(field)).flatten
   end
 
   def stats(field)
-    value_for_stats(field).sort.group_by(&:itself).map { |key, value| [key, value.count] }.to_h
+    @films.map { |film| film.value_for_stats(field) }.compact.sort.group_by(&:itself).map { |key, value| [key, value.count ] }.to_h
   end
 
   def genres

@@ -30,6 +30,14 @@ class Movie
     end
   end
 
+  def value_for_stats(field)
+    if field == :month
+      date[1] unless date[1].nil?
+    else
+      send(field)
+    end
+  end
+
   def to_s
     "#{title}: #{producer} (#{date}; #{genre.join('/')}) - #{duration} min"
   end
