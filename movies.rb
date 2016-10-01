@@ -32,6 +32,6 @@ class MovieCollection
   end
 
   def genres
-    @films.map(&:genre).flatten.uniq
+    @genres ||= @films.map(&:genre).flatten.uniq
   end
 end

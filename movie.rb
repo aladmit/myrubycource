@@ -1,5 +1,5 @@
 class Movie
-  attr_accessor :url, :title, :year, :country, :date, :genre, :duration, :stars, :producer, :actors, :month
+  attr_accessor :url, :title, :year, :country, :date, :genre, :duration, :stars, :producer, :actors
 
   def initialize(params, collection)
     @url = params[:url]
@@ -8,11 +8,14 @@ class Movie
     @country = params[:country]
     @date = params[:date].split('-')
     @genre = params[:genre].split(',')
-    @duration = params[:stars].split(' ')[0].to_i
+    @duration = params[:duration].to_i
     @producer = params[:producer]
     @actors = params[:actors].split(',')
     @collection = collection
-    @month = date[1]
+  end
+
+  def month
+    date[1]
   end
 
   def has_genre?(name)
@@ -21,7 +24,7 @@ class Movie
   end
 
   def matches?(filter, value)
-    if send(filter).class == Array
+    if send(filter).is_a?
       send(filter).any? { |v| value === v }
     else
       value === send(filter)
