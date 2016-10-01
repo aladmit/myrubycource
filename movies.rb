@@ -24,17 +24,11 @@ class MovieCollection
     end
   end
 
-  def value_for_stats(field)
-    if field == :month
-      @films.reject { |film| film.date[1].nil? }.map { |film| film.date[1] }.flatten
-    else
-      @films.map(&field).flatten
-    end
-    @films.map(&value_for_stats(field)).flatten
-  end
-
   def stats(field)
-    @films.map { |film| film.value_for_stats(field) }.compact.sort.group_by(&:itself).map { |key, value| [key, value.count ] }.to_h
+    @films.map { |film| film.send(field) }
+          .compact.sort.group_by(&:itself)
+          .map { |key, value| [key, value.count] }
+          .to_h
   end
 
   def genres

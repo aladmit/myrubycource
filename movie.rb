@@ -1,10 +1,10 @@
 class Movie
-  attr_accessor :url, :title, :year, :country, :date, :genre, :duration, :stars, :producer, :actors
+  attr_accessor :url, :title, :year, :country, :date, :genre, :duration, :stars, :producer, :actors, :month
 
   def initialize(params, collection)
     @url = params[:url]
     @title = params[:title]
-    @year = params[:year]
+    @year = params[:year].to_i
     @country = params[:country]
     @date = params[:date].split('-')
     @genre = params[:genre].split(',')
@@ -12,6 +12,7 @@ class Movie
     @producer = params[:producer]
     @actors = params[:actors].split(',')
     @collection = collection
+    @month = date[1]
   end
 
   def has_genre?(name)
@@ -20,21 +21,10 @@ class Movie
   end
 
   def matches?(filter, value)
-    if filter == :year
-      return (value) === send(filter).to_i
-    end
     if send(filter).class == Array
-      send(filter).any? { |v| Regexp.new(value) === v }
+      send(filter).any? { |v| value === v }
     else
-      Regexp.new(value) === send(filter)
-    end
-  end
-
-  def value_for_stats(field)
-    if field == :month
-      date[1] unless date[1].nil?
-    else
-      send(field)
+      value === send(filter)
     end
   end
 
