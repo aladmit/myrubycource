@@ -3,7 +3,7 @@ require_relative '../netflix.rb'
 
 RSpec.describe Netflix do
   context '#show' do
-    subject(:netflix) { Netflix.new }
+    subject(:netflix) { Netflix.new('./spec/movies.txt')}
 
     it 'how some film now' do
       expect(netflix.show).to match(/Now showing:/)
