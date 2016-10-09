@@ -4,7 +4,7 @@ require './movie.rb'
 class MovieCollection
   FIELDS = %i(url title year country date genre duration stars producer actors)
 
-  def initialize(file)
+  def initialize(file = 'movies.txt')
     @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
       Movie.new(line.to_h, self)
     end

@@ -1,7 +1,8 @@
-require '../netfix.rb'
+require 'spec_helper.rb'
+require_relative '../netflix.rb'
 
-Rspec.describe Netfix do
-  describe '#show' do
+RSpec.describe Netflix do
+  context '#show' do
     subject(:netflix) { Netflix.new }
 
     it 'how some film now' do
@@ -9,7 +10,7 @@ Rspec.describe Netfix do
     end
 
     it 'return random film' do
-      expect(netfix.show).not_to eq netflix.show
+      expect(netflix.show).not_to eq netflix.show
     end
   end
 end
