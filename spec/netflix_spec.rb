@@ -13,4 +13,8 @@ RSpec.describe Netflix do
       expect((1..10).collect { netflix.show }.uniq.count).not_to eq 1
     end
   end
+
+  it '#how_much? should return movie price' do
+    its(:how_much?('The Terminator')) { should eq 3 }
+  end
 end
