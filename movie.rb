@@ -24,7 +24,7 @@ class Movie
   end
 
   def matches?(filter, value)
-    if send(filter).is_a?
+    if send(filter).is_a? Array
       send(filter).any? { |v| value === v }
     else
       value === send(filter)
