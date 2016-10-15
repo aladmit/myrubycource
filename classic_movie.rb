@@ -1,6 +1,10 @@
 require './movie.rb'
 
 class ClassicMovie < Movie
+  def price
+    1.5
+  end
+
   def to_s
     str = "#{title} - классический фильм, режиссер #{producer}\n"
     str += "Other films of producer:\n"
