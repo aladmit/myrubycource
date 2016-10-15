@@ -14,6 +14,10 @@ class ClassicMovie < Movie
     str
   end
 
+  def period
+    :classic
+  end
+
   def producer_movies
     movies = @collection.filter(producer: producer)
     movies.delete(self)
