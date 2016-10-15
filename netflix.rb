@@ -10,6 +10,10 @@ class Netflix < MovieCollection
     "Now showing: #{film.title} #{start_time} - #{end_time}"
   end
 
+  def how_much?(title)
+    filter(title: title).first.price
+  end
+
   def end_time
     start_time + film.duration * 60
   end
