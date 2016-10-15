@@ -19,7 +19,7 @@ RSpec.describe MovieCollection do
     end
 
     it 'modern movie' do
-      array_of_classes = films.filter(year: 1967..2000).collect(&:class).uniq
+      array_of_classes = films.filter(year: 1969..2000).collect(&:class).uniq
       expect(array_of_classes.size).to eq 1
       expect(array_of_classes[0]).to eq ModernMovie
     end
