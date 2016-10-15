@@ -3,11 +3,11 @@ require './movies.rb'
 class Netflix < MovieCollection
   attr_accessor :film, :start_time
 
-  def show
-    self.film = all.sample
+  def show(filter)
+    self.film = self.filter(filter).sample
     self.start_time = Time.now
 
-    "Now showing: #{film.title} #{start_time} - #{end_time}"
+    "Now showing: #{film.to_s}"
   end
 
   def how_much?(title)

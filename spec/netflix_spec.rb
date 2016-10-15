@@ -6,11 +6,11 @@ RSpec.describe Netflix do
 
   context '#show' do
     it 'how some film now' do
-      expect(netflix.show).to match(/Now showing:/)
+      expect(netflix.show({})).to match(/Now showing:/)
     end
 
     it 'return random film' do
-      expect((1..10).collect { netflix.show }.uniq.count).not_to eq 1
+      expect((1..10).collect { netflix.show({}) }.uniq.count).not_to eq 1
     end
   end
 
