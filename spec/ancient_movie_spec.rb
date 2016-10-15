@@ -15,7 +15,5 @@ RSpec.describe AncientMovie do
                                      },[]
                                     )}
 
-  it 'have to_s formant' do
-    expect(movie.to_s).to eq "#{movie.title} - старый фильм (#{movie.year} год)"
-  end
+  its(:to_s) { should eq "#{movie.title} - старый фильм (#{movie.year} год)" }
 end

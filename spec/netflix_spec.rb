@@ -10,7 +10,7 @@ RSpec.describe Netflix do
     end
 
     it 'return random film' do
-      expect(netflix.show).not_to eq netflix.show
+      expect((1..10).collect { netflix.show }.uniq.count).not_to eq 1
     end
   end
 end
