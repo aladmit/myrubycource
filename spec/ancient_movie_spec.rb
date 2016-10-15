@@ -6,4 +6,6 @@ RSpec.describe AncientMovie do
   subject(:movie) { @films.filter(year: 1900..1945)[0] }
 
   its(:to_s) { should eq "#{movie.title} - старый фильм (#{movie.year} год)" }
+
+  its(:price) { should eq 1 }
 end

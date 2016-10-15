@@ -6,4 +6,6 @@ RSpec.describe ClassicMovie do
   subject(:movie) { @films.filter(year: 1946..1968)[0] }
 
   its(:to_s) { should eq "12 Angry Men - классический фильм, режиссер Sidney Lumet\nOther films of producer:\n  Network\n  Dog Day Afternoon\n" }
+
+  its(:price) { should eq 1.5 }
 end

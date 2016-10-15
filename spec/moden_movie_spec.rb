@@ -6,5 +6,6 @@ RSpec.describe ModernMovie do
   subject(:movie) { @films.filter(year: 1969..2000)[0] }
 
   its(:to_s) { should eq "The Shawshank Redemption - современное кино, играют: Tim Robbins, Morgan Freeman, Bob Gunton" }
-end
 
+  its(:price) { should eq 3 }
+end
