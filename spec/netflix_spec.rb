@@ -2,7 +2,7 @@ require 'spec_helper.rb'
 require_relative '../netflix.rb'
 
 RSpec.describe Netflix do
-  subject(:netflix) { Netflix.new('./spec/movies.txt')}
+  subject(:netflix) { Netflix.new('./spec/movies.txt') }
   let(:test_movie) { ModernMovie.new({url: "http://imdb.com/title/tt0091763/?ref_=chttp_tt_170",
                                       title: "Platoon",
                                       year: 1986,
@@ -15,7 +15,7 @@ RSpec.describe Netflix do
                                      },netflix.all) }
 
 
-  context '#show' do
+  describe '#show' do
     it 'how some film now' do
       expect(netflix.show({})).to match(/Now showing:/)
     end
@@ -32,5 +32,13 @@ RSpec.describe Netflix do
 
   it '#how_much? should return movie price' do
     expect(netflix.how_much?('The Terminator')).to eq 3
+  end
+
+  describe '#pay' do
+    it 'should increase money' do
+      expect(netflix.money).to eq 0
+      netflix.pay(20)
+      expect(netflix.money).to eq 20
+    end
   end
 end
