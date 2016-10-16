@@ -14,7 +14,6 @@ RSpec.describe Netflix do
                                       actors: "Charlie Sheen,Tom Berenger,Willem Dafoe"
                                      },netflix.all) }
 
-
   describe '#show' do
     it 'how some film now' do
       expect(netflix.show({})).to match(/Now showing:/)

@@ -1,7 +1,12 @@
 require './movies.rb'
 
 class Netflix < MovieCollection
-  attr_accessor :film, :start_time
+  attr_accessor :film, :start_time, :money
+
+  def initialize(file = 'movies.txt')
+    super
+    @money = 0
+  end
 
   def show(filter)
     self.film = self.filter(filter).sample
@@ -12,6 +17,10 @@ class Netflix < MovieCollection
 
   def how_much?(title)
     filter(title: title).first.price
+  end
+
+  def pay(amount)
+    @money += amount
   end
 
   def end_time
