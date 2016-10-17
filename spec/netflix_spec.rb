@@ -15,7 +15,7 @@ RSpec.describe Netflix do
                                      },netflix.all) }
 
   describe '#show' do
-    it 'how some film now' do
+    it 'show some film now' do
       expect(netflix.show({})).to match(/Now showing:/)
     end
 
@@ -26,6 +26,41 @@ RSpec.describe Netflix do
     it 'use filter' do
       expect(netflix).to receive(:filter).with(producer: 'Oliver Stone', period: :modern).and_return([test_movie])
       expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{test_movie.to_s}"
+    end
+
+    context 'should pay for movie' do
+      it 'exception if user don`t pay' do
+        netflix.money = 0
+        expect(netflix.show({})).to raise_exception(NoMoney)
+      end
+
+      it 'ancient' do
+        netflix.pay(1)
+        money = netflix.money
+        netflix.show(period: :ancient)
+        expect(netflix.money).to eq money - 1
+      end
+
+      it 'classic' do
+        netflix.pay(1.5)
+        money = netflix.money
+        netflix.show(period: :classic)
+        expect(netflix.money).to eq money - 1.5
+      end
+
+      it 'modern' do
+        netflix.pay(3)
+        money = netflix.money
+        netflix.show(period: :modern)
+        expect(netflix.money).to eq money - 3
+      end
+
+      it 'new' do
+        netflix.pay(5)
+        money = netflix.money
+        netflix.show(period: :new)
+        expect(netflix.money).to eq money - 5
+      end
     end
   end
 
