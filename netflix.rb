@@ -1,4 +1,5 @@
 require './movies.rb'
+require './exeptions.rb'
 
 class Netflix < MovieCollection
   attr_accessor :film, :start_time, :money
@@ -9,7 +10,11 @@ class Netflix < MovieCollection
   end
 
   def show(filter)
-    self.film = self.filter(filter).sample
+    movie = self.filter(filter).sample
+    raise NoMoney if money < movie.price
+
+    @money -= movie.price
+    self.film = movie
     self.start_time = Time.now
 
     "Now showing: #{film.to_s}"
