@@ -14,6 +14,17 @@ class Theatre < MovieCollection
     start_time + film.duration * 60
   end
 
+  def when?(title)
+    movie = filter(title: title)[0]
+    if movie.matches?(:period, :ancient)
+      "С 8 до 11"
+    elsif movie.matches?(:genre, 'Comedy') || movie.matches?(:genre, 'Action')
+      "С 12 до 16"
+    elsif movie.matches?(:genre, 'Drama') || movie.matches?(:genre, 'Horror')
+      "C 17 до 22"
+    end
+  end
+
   def filter_by_time(time)
     return all if time.nil?
     case DateTime.parse(time).hour

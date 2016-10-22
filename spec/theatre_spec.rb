@@ -3,7 +3,7 @@ require_relative '../theatre.rb'
 
 RSpec.describe Theatre do
   context '#show' do
-    subject(:theatre) { Theatre.new('./spec/movies.txt')}
+    subject(:theatre) { Theatre.new('./spec/movies.txt') }
 
     it 'how some film now' do
       expect(theatre.show).to match(/Now showing:/)
@@ -39,7 +39,7 @@ RSpec.describe Theatre do
   end
 
   context '#filter_by_time' do
-    subject(:theatre) { Theatre.new('./spec/movies.txt')}
+    subject(:theatre) { Theatre.new('./spec/movies.txt') }
 
     it 'return ancient film in the morning' do
       hours = 8..11
@@ -55,5 +55,9 @@ RSpec.describe Theatre do
       hours = 17..22
       expect(hours.map { |hour| theatre.filter_by_time("#{hour}:00") }.flatten.map(&:genre).flatten).to include("Horror", "Drama")
     end
+  end
+
+  it '#when?' do
+    expect(Theatre.new('./spec/movies.txt').when?('The Terminator')).to eq "С 12 до 16"
   end
 end
