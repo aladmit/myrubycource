@@ -6,12 +6,7 @@ class ClassicMovie < Movie
   end
 
   def to_s
-    str = "#{title} - классический фильм, режиссер #{producer}\n"
-    str += "Other films of producer:\n"
-    producer_movies.each do |movie|
-      str += "  #{movie.title}\n"
-    end
-    str
+    "#{title} - классический фильм, режиссер #{producer}(еще #{producer_movies.count} его фильмов в списке)"
   end
 
   def period
