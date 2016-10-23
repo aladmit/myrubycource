@@ -18,6 +18,19 @@ class Movie
     date[1]
   end
 
+  def self.create(fields, collection)
+    case fields[:year].to_i
+    when 1900..1945
+      AncientMovie.new(fields, collection)
+    when 1946..1968
+      ClassicMovie.new(fields, collection)
+    when 1969..2000
+      ModernMovie.new(fields, collection)
+    when 2001..Time.new.year
+      NewMovie.new(fields, collection)
+    end
+  end
+
   def has_genre?(name)
     raise GenreDoesNotExist unless @collection.genres.include?(name)
     genre.include?(name)

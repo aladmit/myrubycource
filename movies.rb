@@ -10,7 +10,7 @@ class MovieCollection
 
   def initialize(file = 'movies.txt')
     @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-      add_movie(line.to_h)
+      Movie.create(line.to_h, self)
     end
   end
 
@@ -37,18 +37,5 @@ class MovieCollection
 
   def genres
     @genres ||= @films.map(&:genre).flatten.uniq
-  end
-
-  def add_movie(fields)
-    case fields[:year].to_i
-    when 1900..1945
-      AncientMovie.new(fields, self)
-    when 1946..1968
-      ClassicMovie.new(fields, self)
-    when 1969..2000
-      ModernMovie.new(fields, self)
-    when 2001..Time.new.year
-      NewMovie.new(fields, self)
-    end
   end
 end
