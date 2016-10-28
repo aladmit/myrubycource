@@ -11,9 +11,9 @@ class Netflix < MovieCollection
 
   def show(filter)
     movie = self.filter(filter).sample
-    raise NoMoney if money < movie.price
+    raise NoMoney if money < movie.class::PRICE
 
-    @money -= movie.price
+    @money -= movie.class::PRICE
     self.film = movie
     self.start_time = Time.now
 
@@ -21,7 +21,7 @@ class Netflix < MovieCollection
   end
 
   def how_much?(title)
-    filter(title: title).first.price
+    filter(title: title).first.class::PRICE
   end
 
   def pay(amount)

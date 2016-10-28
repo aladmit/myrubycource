@@ -7,7 +7,9 @@ RSpec.describe AncientMovie do
 
   its(:to_s) { should eq "#{movie.title} - старый фильм (#{movie.year} год)" }
 
-  its(:price) { should eq 1 }
+  it "should have a price" do
+    expect(movie.class::PRICE).to eq 1
+  end
 
   its(:period) { should eq :ancient }
 end

@@ -7,7 +7,9 @@ RSpec.describe ModernMovie do
 
   its(:to_s) { should eq "The Shawshank Redemption - современное кино, играют: Tim Robbins, Morgan Freeman, Bob Gunton" }
 
-  its(:price) { should eq 3 }
+  it "should have a price" do
+    expect(movie.class::PRICE).to eq 3
+  end
 
   its(:period) { should eq :modern }
 end
