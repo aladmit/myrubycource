@@ -27,8 +27,7 @@ RSpec.describe Netflix do
 
     it 'use filter' do
       netflix.pay(10)
-      expect(netflix).to receive(:filter).with(producer: 'Oliver Stone', period: :modern).and_return([test_movie])
-      expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{test_movie.to_s}"
+      expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first.to_s}"
     end
 
     context 'should pay for movie' do
