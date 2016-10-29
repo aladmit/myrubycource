@@ -38,4 +38,16 @@ class MovieCollection
   def genres
     @genres ||= @films.map(&:genre).flatten.uniq
   end
+
+  def random_by_stars(films)
+    stars_sum = films.inject(0) { |sum, film| sum + film.stars }
+    counter = 0
+    random = Random.rand(1..stars_sum)
+
+    film = films.each do |i|
+      counter += i.stars
+      break i if counter >= random
+    end
+    film
+  end
 end

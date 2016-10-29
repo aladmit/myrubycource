@@ -9,6 +9,7 @@ class Movie
     @date = params[:date].split('-')
     @genre = params[:genre].split(',')
     @duration = params[:duration].to_i
+    @stars = params[:stars].to_i
     @producer = params[:producer]
     @actors = params[:actors].split(',')
     @collection = collection
