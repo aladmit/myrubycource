@@ -33,44 +33,37 @@ RSpec.describe MovieCollection do
   describe 'filter' do
     it 'by title' do
       titles = films.filter(title: 'The Terminator').map(&:title)
-      expect(titles).not_to be_empty
-      expect(titles).to all match 'The Terminator'
+      expect(titles).to not_be_empty.and all match 'The Terminator'
     end
 
     it 'by year' do
       years = films.filter(year: 1980).map(&:year)
-      expect(years).not_to be_empty
-      expect(years).to all eq 1980
+      expect(years).to not_be_empty.and all eq 1980
     end
     
     it 'by country' do
       countries = films.filter(country: 'UK').map(&:country)
-      expect(countries).not_to be_empty
-      expect(countries).to all match 'UK'
+      expect(countries).to not_be_empty.and all match 'UK'
     end
 
     it 'by genre' do
       genres = films.filter(genre: 'Comedy').map(&:genre)
-      expect(genres).not_to be_empty
-      expect(genres).to all include 'Comedy'
+      expect(genres).to not_be_empty.and  all include 'Comedy'
     end
 
     it 'by duration' do
       durations = films.filter(duration: 180).map(&:duration)
-      expect(durations).not_to be_empty
-      expect(durations).to all eq 180
+      expect(durations).to not_be_empty.and all eq 180
     end
 
     it 'by producer' do
       producers = films.filter(producer: 'Christopher Nolan').map(&:producer)
-      expect(producers).not_to be_empty
-      expect(producers).to all match 'Christopher Nolan'
+      expect(producers).to not_be_empty.and all match 'Christopher Nolan'
     end
 
     it 'by actors' do
       actors = films.filter(actors: 'Alexandre Rodrigues').map(&:actors)
-      expect(actors).not_to be_empty
-      expect(actors).to all include 'Alexandre Rodrigues'
+      expect(actors).to not_be_empty.and all include 'Alexandre Rodrigues'
     end
   end
 end
