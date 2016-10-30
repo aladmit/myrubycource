@@ -8,7 +8,7 @@ RSpec.describe ClassicMovie do
   its(:to_s) { should eq "12 Angry Men - классический фильм, режиссер Sidney Lumet(еще 2 его фильмов в списке)" }
 
   it "should have a price" do
-    expect(movie.class::PRICE).to eq 1.5
+    expect(movie.price).to eq 1.5
   end
 
   its(:period) { should eq :classic }

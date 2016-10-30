@@ -23,6 +23,10 @@ class Movie
     self.class.to_s.match(/.*(?=Movie)/).to_s.downcase.to_sym
   end
 
+  def price
+    self.class::PRICE
+  end
+
   def self.create(fields, collection)
     case fields[:year].to_i
     when 1900..1945
