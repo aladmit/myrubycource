@@ -13,28 +13,9 @@ RSpec.describe Theatre do
       expect((1..10).collect { theatre.show }.uniq.count).not_to eq 1
     end
 
-    it 'return ancient film in the morning' do
-      hours = 8..11
-      filteres_films = hours
-                        .map { |hour| theatre.filter_by_time("#{hour}:30") }
-                        .flatten.uniq.map(&:title).join(' ')
-      expect(filteres_films).to include(theatre.show("8:30").match(/(?<=Now showing: )[A-Za-z ]*/).to_s)
-    end
-
-    it 'return Comedy and Action in the middle of day' do
-      hours = 12..16
-      filteres_films = hours
-                        .map { |hour| theatre.filter_by_time("#{hour}:30") }
-                        .flatten.uniq.map(&:title).join(' ')
-      expect(filteres_films).to include(theatre.show("14:30").match(/(?<=Now showing: )[A-Za-z ]*/).to_s)
-    end
-
-    it 'return Drama and Horror in the evening' do
-      hours = 17..22
-      filteres_films = hours
-                        .map { |hour| theatre.filter_by_time("#{hour}:30") }
-                        .flatten.uniq.map(&:title).join(' ')
-      expect(filteres_films).to include(theatre.show("18:30").match(/(?<=Now showing: )[A-Za-z ]*/).to_s)
+    it 'return film with filtering by time' do
+      allow(theatre).to receive(:filter_by_time).with("8:30").and_call_original
+      theatre.show("8:30")
     end
   end
 

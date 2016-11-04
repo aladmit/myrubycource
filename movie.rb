@@ -18,7 +18,7 @@ class Movie
   def month
     date[1]
   end
-  
+
   def period
     self.class.to_s.match(/.*(?=Movie)/).to_s.downcase.to_sym
   end
