@@ -10,7 +10,7 @@ RSpec.describe Theatre do
     end
 
     it 'use random_by_stars' do
-      allow(theatre).to receive(:random_by_stars).and_call_original
+      expect(theatre).to receive(:random_by_stars).and_call_original
       theatre.show
     end
 

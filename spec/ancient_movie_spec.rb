@@ -3,9 +3,9 @@ require_relative '../movies.rb'
 
 RSpec.describe AncientMovie do
   before { @films = MovieCollection.new('./spec/movies.txt') }
-  subject(:movie) { @films.filter(year: 1900..1945)[0] }
+  subject(:movie) { @films.filter(year: 1900..1945).first }
 
-  its(:to_s) { should eq "#{movie.title} - старый фильм (#{movie.year} год)" }
+  its(:to_s) { should eq "Casablanca - старый фильм (1942 год)" }
 
   it "should have a price" do
     expect(movie.price).to eq 1

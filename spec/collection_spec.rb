@@ -5,29 +5,10 @@ RSpec.describe MovieCollection do
   subject(:films) { MovieCollection.new('./spec/movies.txt') }
 
   describe 'movies has a 4 types' do
-    it 'ancient movie' do
-      array_of_classes = films.filter(year: 1900..1945).collect(&:class).uniq
-      expect(array_of_classes.size).to eq 1
-      expect(array_of_classes[0]).to eq AncientMovie
-    end
-
-    it 'classic movie' do
-      array_of_classes = films.filter(year: 1946..1968).collect(&:class).uniq
-      expect(array_of_classes.size).to eq 1
-      expect(array_of_classes[0]).to eq ClassicMovie
-    end
-
-    it 'modern movie' do
-      array_of_classes = films.filter(year: 1969..2000).collect(&:class).uniq
-      expect(array_of_classes.size).to eq 1
-      expect(array_of_classes[0]).to eq ModernMovie
-    end
-
-    it 'new movie' do
-      array_of_classes = films.filter(year: 2001..Time.new.year).collect(&:class).uniq
-      expect(array_of_classes.size).to eq 1
-      expect(array_of_classes[0]).to eq NewMovie
-    end
+    it_should_behave_like 'movie type', 1900..1945, AncientMovie
+    it_should_behave_like 'movie type', 1946..1968, ClassicMovie
+    it_should_behave_like 'movie type', 1969..2000, ModernMovie
+    it_should_behave_like 'movie type', 2001..Time.new.year, NewMovie
   end
 
   describe 'filter' do
@@ -40,7 +21,7 @@ RSpec.describe MovieCollection do
       years = films.filter(year: 1980).map(&:year)
       expect(years).to not_be_empty.and all eq 1980
     end
-    
+
     it 'by country' do
       countries = films.filter(country: 'UK').map(&:country)
       expect(countries).to not_be_empty.and all match 'UK'

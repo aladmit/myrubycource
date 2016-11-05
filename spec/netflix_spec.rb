@@ -17,7 +17,7 @@ RSpec.describe Netflix do
   describe '#show' do
     it 'show some film now' do
       netflix.pay(10)
-      expect(netflix.show({})).to match(/Now showing:/)
+      expect(netflix.show()).to match(/Now showing:/)
     end
 
     it 'use filter' do
@@ -28,7 +28,7 @@ RSpec.describe Netflix do
     context 'should pay for movie' do
       it 'exception if user don`t pay' do
         netflix.money = 0
-        expect { netflix.show({}) }.to raise_error(NoMoney)
+        expect { netflix.show() }.to raise_error(NoMoney)
       end
 
       it 'ancient' do

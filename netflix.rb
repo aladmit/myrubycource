@@ -9,9 +9,9 @@ class Netflix < MovieCollection
     @money = 0
   end
 
-  def show(params)
+  def show(params = {})
     movie = random_by_stars(self.filter(params))
-    raise NoMoney if money < movie.price
+    raise NoMoney.new(movie.title, movie.price, money) if money < movie.price
 
     @money -= movie.price
     self.film = movie
@@ -21,7 +21,12 @@ class Netflix < MovieCollection
   end
 
   def how_much?(title)
-    filter(title: title).first.price
+    movie = filter(title: title).first
+    if movie.nil?
+      raise MovieNotFound(title)
+    else
+      movie.price
+    end
   end
 
   def pay(amount)
