@@ -30,14 +30,14 @@ class Movie
   def self.create(fields, collection)
     case fields[:year].to_i
     when 1900..1945
-      AncientMovie.new(fields, collection)
+      AncientMovie
     when 1946..1968
-      ClassicMovie.new(fields, collection)
+      ClassicMovie
     when 1969..2000
-      ModernMovie.new(fields, collection)
+      ModernMovie
     when 2001..Time.new.year
-      NewMovie.new(fields, collection)
-    end
+      NewMovie
+    end.new(fields, collection)
   end
 
   def has_genre?(name)
