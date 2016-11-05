@@ -8,7 +8,7 @@ class Theatre < MovieCollection
   EVENING = 17..22
 
   def show(time = nil)
-    self.film = filter_by_time(time).sample
+    self.film = random_by_stars(filter_by_time(time))
     self.start_time = Time.now
 
     "Now showing: #{film.title} #{start_time} - #{end_time}"

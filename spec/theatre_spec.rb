@@ -9,8 +9,9 @@ RSpec.describe Theatre do
       expect(theatre.show).to match(/Now showing:/)
     end
 
-    it 'return random film' do
-      expect((1..10).collect { theatre.show }.uniq.count).not_to eq 1
+    it 'use random_by_stars' do
+      allow(theatre).to receive(:random_by_stars).and_call_original
+      theatre.show
     end
 
     it 'return film with filtering by time' do
