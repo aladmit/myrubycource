@@ -20,11 +20,6 @@ RSpec.describe Netflix do
       expect(netflix.show({})).to match(/Now showing:/)
     end
 
-    it 'return random film' do
-      netflix.pay(100)
-      expect((1..10).collect { netflix.show({}) }.uniq.count).not_to eq 1
-    end
-
     it 'use filter' do
       netflix.pay(10)
       expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first.to_s}"
