@@ -23,8 +23,10 @@ class MovieCollection
   end
 
   def filter(params)
-    params.reduce(@films) do |films, (key, value)|
-      films.select { |film| film.matches?(key, value) }
+    if params.is_a? Array
+      params.map { |hash| apply_filter(hash) }.flatten.uniq
+    else
+      apply_filter(params)
     end
   end
 
@@ -41,5 +43,12 @@ class MovieCollection
 
   def random_by_stars(films)
     films.sort { |film| film.stars * Random.rand }.last
+  end
+
+  private
+  def apply_filter(params)
+    params.reduce(@films) do |films, (key, value)|
+      films.select { |film| film.matches?(key, value) }
+    end
   end
 end

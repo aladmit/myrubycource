@@ -7,6 +7,10 @@ class Theatre < MovieCollection
   MIDDLE = 12..16
   EVENING = 17..22
 
+  FILTERS = { 8..11 => [{ period: :ancient }],
+              12..16 => [{ genre: 'Comedy' }, { genre: 'Action' }],
+              17..22 => [{ genre: 'Drama' }, { genre: 'Horror' }] }
+
   def show(time = nil)
     self.film = random_by_stars(filter_by_time(time))
     self.start_time = Time.now
@@ -19,25 +23,23 @@ class Theatre < MovieCollection
   end
 
   def when?(title)
-    movie = filter(title: title)[0]
-    if movie.matches?(:period, :ancient)
-      "С #{MORNING.first} до #{MORNING.last}"
-    elsif movie.matches?(:genre, 'Comedy') || movie.matches?(:genre, 'Action')
-      "С #{MIDDLE.first} до #{MIDDLE.last}"
-    elsif movie.matches?(:genre, 'Drama') || movie.matches?(:genre, 'Horror')
-      "C #{EVENING.first} до #{EVENING.last}"
-    end
+    movie = filter(title: title).first
+
+    time =
+      FILTERS.detect { |_time, filters| filters.map { |filter| filter.map { |key, value| movie.matches?(key, value) } }.flatten.include?(true) }.first
+
+    "С #{time.first} до #{time.last}"
   end
 
   def filter_by_time(time)
     return all if time.nil?
     case DateTime.parse(time).hour
     when MORNING
-      filter(period: :ancient)
+      filter(FILTERS[MORNING])
     when MIDDLE
-      (filter(genre: 'Comedy') + filter(genre: 'Action')).uniq
+      filter(FILTERS[MIDDLE])
     when EVENING
-      (filter(genre: 'Drama') + filter(genre: 'Horror')).uniq
+      filter(FILTERS[MIDDLE])
     end
   end
 end
