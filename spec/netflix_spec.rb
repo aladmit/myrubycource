@@ -67,9 +67,7 @@ RSpec.describe Netflix do
 
   describe '#pay' do
     it 'should increase money' do
-      expect(netflix.money).to eq 0
-      netflix.pay(20)
-      expect(netflix.money).to eq 20
+      expect { netflix.pay(20) }.to change(netflix, :money).from(0).to(20)
     end
   end
 end

@@ -9,6 +9,12 @@ end
 
 class MovieNotFound < Exception
   def initialize(title)
-    super("Фильм с названием \"#{title}\" не найдет")
+    super("Фильм с названием \"#{title}\" не найден")
+  end
+end
+
+class MovieTimeNotFound < Exception
+  def initialize(title)
+    super("#{title} нет в прокате")
   end
 end

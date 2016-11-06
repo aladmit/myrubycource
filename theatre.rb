@@ -25,21 +25,24 @@ class Theatre < MovieCollection
   def when?(title)
     movie = filter(title: title).first
 
-    time =
-      FILTERS.detect { |_time, filters| filters.map { |filter| filter.map { |key, value| movie.matches?(key, value) } }.flatten.include?(true) }.first
+    raise MovieNotFound.new(title) if movie.nil?
+
+    begin
+      time =
+        FILTERS.detect { |_time, filters| filters.map { |filter| filter.map { |key, value| movie.matches?(key, value) } }.flatten.include?(true) }.first
+    rescue
+      raise MovieTimeNotFound.new(movie.title) if time.nil?
+    end
 
     "С #{time.first} до #{time.last}"
   end
 
-  def filter_by_time(time)
+  def filter_by_time(time = nil)
     return all if time.nil?
-    case DateTime.parse(time).hour
-    when MORNING
-      filter(FILTERS[MORNING])
-    when MIDDLE
-      filter(FILTERS[MIDDLE])
-    when EVENING
-      filter(FILTERS[MIDDLE])
+    time = DateTime.parse(time).hour
+
+    [MORNING, MIDDLE, EVENING].each do |part_of_day|
+      return filter(FILTERS[part_of_day]) if part_of_day.include?(time)
     end
   end
 end

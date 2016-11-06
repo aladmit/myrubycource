@@ -39,7 +39,19 @@ RSpec.describe Theatre do
     end
   end
 
-  it '#when?' do
-    expect(Theatre.new('./spec/movies.txt').when?('The Terminator')).to eq "С 12 до 16"
+  context '#when?' do
+    subject(:theatre) { Theatre.new('./spec/movies.txt') }
+
+    it 'return time for movie' do
+      expect(theatre.when?('The Terminator')).to eq "С 12 до 16"
+    end
+
+    it 'return exception if movie not found' do
+      expect { theatre.when?('Film that not exist') }.to raise_error(MovieNotFound)
+    end
+
+    it 'return exception if time not found' do
+      expect { theatre.when?('Princess Mononoke') }.to raise_error(MovieTimeNotFound)
+    end
   end
 end
