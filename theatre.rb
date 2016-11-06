@@ -23,15 +23,12 @@ class Theatre < MovieCollection
   end
 
   def when?(title)
-    movie = filter(title: title).first
-
-    raise MovieNotFound.new(title) if movie.nil?
+    movie = filter(title: title).first or raise MovieNotFound.new(title)
 
     begin
-      time =
-        FILTERS.detect { |_time, filters| filters.map { |filter| filter.map { |key, value| movie.matches?(key, value) } }.flatten.include?(true) }.first
+      time = detect_filter(movie)
     rescue
-      raise MovieTimeNotFound.new(movie.title) if time.nil?
+      raise MovieTimeNotFound.new(movie.title)
     end
 
     "С #{time.first} до #{time.last}"
@@ -44,5 +41,15 @@ class Theatre < MovieCollection
     [MORNING, MIDDLE, EVENING].each do |part_of_day|
       return filter(FILTERS[part_of_day]) if part_of_day.include?(time)
     end
+  end
+
+  private
+  def detect_filter(movie)
+    FILTERS.detect { |_time, filters| filters.map { |filter| check_matches(filter, movie) }
+           .flatten.include?(true) }.first
+  end
+
+  def check_matches(filter, movie)
+    filter.map { |key, value| movie.matches?(key, value) }
   end
 end
