@@ -3,6 +3,10 @@ end
 
 class NoMoney < Exception
   def initialize(title, price, money)
+    @title = title
+    @price = price
+    @money = money
+
     super("Для просмотра #{title} надо #{price}, а у вас на счету #{money}")
   end
 end
