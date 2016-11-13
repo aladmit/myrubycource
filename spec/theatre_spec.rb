@@ -24,18 +24,15 @@ RSpec.describe Theatre do
     subject(:theatre) { Theatre.new('./spec/movies.txt') }
 
     it 'return ancient film in the morning' do
-      hours = 8..11
-      expect(hours.map { |hour| theatre.filter_by_time("#{hour}:00") }.flatten.map(&:class)).to all eq AncientMovie
+      expect(movies_at(8..11)).to all be_a(AncientMovie)
     end
 
     it 'return Comedy and Action in the middle of day' do
-      hours = 12..16
-      expect(hours.map { |hour| theatre.filter_by_time("#{hour}:00") }.flatten.map(&:genre).flatten).to include("Action", "Comedy")
+      expect(movies_at(12..16)).to all have_genres("Action", "Comedy")
     end
 
     it 'return Drama and Horror in the evening' do
-      hours = 17..22
-      expect(hours.map { |hour| theatre.filter_by_time("#{hour}:00") }.flatten.map(&:genre).flatten).to include("Horror", "Drama")
+      expect(movies_at(17..22)).to all have_genres("Horror", "Drama")
     end
   end
 
