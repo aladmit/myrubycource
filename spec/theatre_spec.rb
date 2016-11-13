@@ -21,6 +21,10 @@ RSpec.describe Theatre do
   end
 
   context '#filter_by_time' do
+    def movies_at(hours)
+      hours.map { |hour| theatre.filter_by_time("#{hour}:00") }.flatten
+    end
+
     subject(:theatre) { Theatre.new('./spec/movies.txt') }
 
     it 'return ancient film in the morning' do
