@@ -3,25 +3,17 @@ require_relative '../netflix.rb'
 
 RSpec.describe Netflix do
   subject(:netflix) { Netflix.new('./spec/movies.txt') }
-  let(:test_movie) { ModernMovie.new({url: "http://imdb.com/title/tt0091763/?ref_=chttp_tt_170",
-                                      title: "Platoon",
-                                      year: 1986,
-                                      country: "UK",
-                                      date: "1987-02-06",
-                                      genre: "Drama,War",
-                                      duration: 120,
-                                      producer: "Oliver Stone",
-                                      actors: "Charlie Sheen,Tom Berenger,Willem Dafoe"
-                                     },netflix.all) }
 
   describe '#show' do
-    it 'show some film now' do
+    before(:each) do
       netflix.pay(10)
+    end
+
+    it 'show some film now' do
       expect(netflix.show()).to match(/Now showing:/)
     end
 
     it 'use filter' do
-      netflix.pay(10)
       expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first.to_s}"
     end
 
@@ -32,31 +24,19 @@ RSpec.describe Netflix do
       end
 
       it 'ancient' do
-        netflix.pay(1)
-        money = netflix.money
-        netflix.show(period: :ancient)
-        expect(netflix.money).to eq money - 1
+        expect { netflix.show(period: :ancient) }.to change(netflix, :money).by(-1)
       end
 
       it 'classic' do
-        netflix.pay(1.5)
-        money = netflix.money
-        netflix.show(period: :classic)
-        expect(netflix.money).to eq money - 1.5
+        expect { netflix.show(period: :classic) }.to change(netflix, :money).by(-1.5)
       end
 
       it 'modern' do
-        netflix.pay(3)
-        money = netflix.money
-        netflix.show(period: :modern)
-        expect(netflix.money).to eq money - 3
+        expect { netflix.show(period: :modern) }.to change(netflix, :money).by(-3)
       end
 
       it 'new' do
-        netflix.pay(5)
-        money = netflix.money
-        netflix.show(period: :new)
-        expect(netflix.money).to eq money - 5
+        expect { netflix.show(period: :new) }.to change(netflix, :money).by(-5)
       end
     end
   end
