@@ -9,6 +9,7 @@ class Movie
     @date = params[:date].split('-')
     @genre = params[:genre].split(',')
     @duration = params[:duration].to_i
+    @stars = params[:stars].to_i
     @producer = params[:producer]
     @actors = params[:actors].split(',')
     @collection = collection
@@ -18,13 +19,34 @@ class Movie
     date[1]
   end
 
+  def period
+    self.class.to_s.match(/.*(?=Movie)/).to_s.downcase.to_sym
+  end
+
+  def price
+    self.class::PRICE
+  end
+
+  def self.create(fields, collection)
+    case fields[:year].to_i
+    when 1900..1945
+      AncientMovie
+    when 1946..1968
+      ClassicMovie
+    when 1969..2000
+      ModernMovie
+    when 2001..Time.new.year
+      NewMovie
+    end.new(fields, collection)
+  end
+
   def has_genre?(name)
     raise GenreDoesNotExist unless @collection.genres.include?(name)
     genre.include?(name)
   end
 
   def matches?(filter, value)
-    if send(filter).is_a?
+    if send(filter).is_a? Array
       send(filter).any? { |v| value === v }
     else
       value === send(filter)
