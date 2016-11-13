@@ -27,7 +27,7 @@ class Theatre < MovieCollection
 
     begin
       time = detect_filter(movie)
-    rescue
+    rescue NoMethodError
       raise MovieTimeNotFound.new(movie.title)
     end
 
