@@ -6,6 +6,8 @@ require './modern_movie.rb'
 require './new_movie.rb'
 
 class MovieCollection
+  include Enumerable
+
   FIELDS = %i(url title year country date genre duration stars producer actors)
 
   def initialize(file = 'movies.txt')
