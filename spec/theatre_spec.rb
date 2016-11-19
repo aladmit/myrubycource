@@ -55,4 +55,26 @@ RSpec.describe Theatre do
       expect { theatre.when?('Princess Mononoke') }.to raise_error(MovieTimeNotFound)
     end
   end
+
+  context 'cashbox' do
+    subject(:theatre) { Theatre.new('./spec/movies.txt') }
+
+    it '#cash return amout of money in cashbox' do
+      expect(theatre.cash).to eq theatre.money
+    end
+
+    context 'get money if somebody #buy_ticket' do
+      it 'get 3 dollars in morning' do
+        expect { buy_ticket(Theatre::MORNING) }.to change(theatre, :cash).by(3)
+      end
+
+      it 'get 5 dollars in day' do
+        expect { buy_ticket(Theatre::MIDDLE) }.to change(theatre, :cash).by(5)
+      end
+
+      it 'get 10 dollars in evening' do
+        expect { buy_ticket(Theatre::EVENING) }.to change(theatre, :cash).by(10)
+      end
+    end
+  end
 end
