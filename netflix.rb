@@ -1,7 +1,10 @@
 require './movies.rb'
+require './cashbox.rb'
 require './exeptions.rb'
 
 class Netflix < MovieCollection
+  include Cashbox
+
   attr_accessor :film, :start_time, :money
 
   def initialize(file = 'movies.txt')
@@ -30,7 +33,7 @@ class Netflix < MovieCollection
   end
 
   def pay(amount)
-    @money += amount
+    refill(amount)
   end
 
   def end_time
