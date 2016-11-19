@@ -1,7 +1,10 @@
 require './movies.rb'
+require './cashbox.rb'
 
 class Theatre < MovieCollection
-  attr_accessor :film, :start_time
+  include Cashbox
+
+  attr_accessor :film, :start_time, :money
 
   MORNING = 8..11
   MIDDLE = 12..16
@@ -10,6 +13,15 @@ class Theatre < MovieCollection
   FILTERS = { 8..11 => [{ period: :ancient }],
               12..16 => [{ genre: 'Comedy' }, { genre: 'Action' }],
               17..22 => [{ genre: 'Drama' }, { genre: 'Horror' }] }
+
+  PRICES = { 8..11 => 3,
+             12..16 => 5,
+             17..22 => 10 }
+
+  def initialize(file = 'movies.txt')
+    super
+    @money = 0
+  end
 
   def show(time = nil)
     self.film = random_by_stars(filter_by_time(time))
@@ -40,6 +52,23 @@ class Theatre < MovieCollection
 
     [MORNING, MIDDLE, EVENING].each do |part_of_day|
       return filter(FILTERS[part_of_day]) if part_of_day.include?(time)
+    end
+  end
+
+  def cash
+    money
+  end
+
+  def buy_ticket(time)
+    time = DateTime.parse(time).hour or raise MovieTimeNotFound.new("")
+
+    movie = random_by_stars(filter_by_time("#{time}:00"))
+
+    PRICES.each do |part_of_day, price|
+      if part_of_day.include?(time)
+        refill(price)
+        return "Вы купили билет на #{movie.title}"
+      end
     end
   end
 
