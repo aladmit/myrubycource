@@ -21,18 +21,14 @@ RSpec.describe Cashbox do
         expect { take('Bank') }.to change { @money }.from(5).to(0)
       end
 
-      it 'cashbox return the message' do
-        expect(task('Bank')).to eq 'Проведена инкассация'
+      it 'and return the message' do
+        expect(take('Bank')).to eq 'Проведена инкассация'
       end
     end
 
     context 'only bank can take the money' do
-      it 'call to police' do
-        expect(task('somebody')).to eq 'Вы не из банка, мы вызываем полицию!'
-      end
-
       it 'return exception' do
-        expect(task('somebody')).to raise_error(CallToPolice)
+        expect { take('somebody') }.to raise_error(CallToPolice)
       end
     end
   end

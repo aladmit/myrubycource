@@ -22,3 +22,9 @@ class MovieTimeNotFound < Exception
     super("#{title} нет в прокате")
   end
 end
+
+class CallToPolice < Exception
+  def initialize
+    super('Мы вызываем полицию')
+  end
+end
