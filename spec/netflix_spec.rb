@@ -1,8 +1,8 @@
 require 'spec_helper.rb'
 require_relative '../netflix.rb'
 
-RSpec.describe Netflix do
-  subject(:netflix) { Netflix.new('./spec/movies.txt') }
+RSpec.describe Theaters::Netflix do
+  subject(:netflix) { Theaters::Netflix.new('./spec/movies.txt') }
 
   describe '#show' do
     before(:each) do

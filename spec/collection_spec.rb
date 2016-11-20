@@ -1,14 +1,14 @@
 require 'spec_helper.rb'
 require_relative '../movies.rb'
 
-RSpec.describe MovieCollection do
-  subject(:films) { MovieCollection.new('./spec/movies.txt') }
+RSpec.describe Theaters::MovieCollection do
+  subject(:films) { Theaters::MovieCollection.new('./spec/movies.txt') }
 
   describe 'movies has a 4 types' do
-    it_should_behave_like 'movie type', 1900..1945, AncientMovie
-    it_should_behave_like 'movie type', 1946..1968, ClassicMovie
-    it_should_behave_like 'movie type', 1969..2000, ModernMovie
-    it_should_behave_like 'movie type', 2001..Time.new.year, NewMovie
+    it_should_behave_like 'movie type', 1900..1945, Theaters::AncientMovie
+    it_should_behave_like 'movie type', 1946..1968, Theaters::ClassicMovie
+    it_should_behave_like 'movie type', 1969..2000, Theaters::ModernMovie
+    it_should_behave_like 'movie type', 2001..Time.new.year, Theaters::NewMovie
   end
 
   describe 'filter' do

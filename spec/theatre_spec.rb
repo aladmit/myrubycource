@@ -1,9 +1,9 @@
 require 'spec_helper.rb'
-require_relative '../theatre.rb'
+require './theatre.rb'
 
-RSpec.describe Theatre do
+RSpec.describe Theaters::Theatre do
   context '#show' do
-    subject(:theatre) { Theatre.new('./spec/movies.txt') }
+    subject(:theatre) { Theaters::Theatre.new('./spec/movies.txt') }
 
     it 'how some film now' do
       expect(theatre.show).to match(/Now showing:/)
@@ -25,10 +25,10 @@ RSpec.describe Theatre do
       hours.map { |hour| theatre.filter_by_time("#{hour}:00") }.flatten
     end
 
-    subject(:theatre) { Theatre.new('./spec/movies.txt') }
+    subject(:theatre) { Theaters::Theatre.new('./spec/movies.txt') }
 
     it 'return ancient film in the morning' do
-      expect(movies_at(8..11)).to all be_a(AncientMovie)
+      expect(movies_at(8..11)).to all be_a(Theaters::AncientMovie)
     end
 
     it 'return Comedy and Action in the middle of day' do
@@ -41,7 +41,7 @@ RSpec.describe Theatre do
   end
 
   context '#when?' do
-    subject(:theatre) { Theatre.new('./spec/movies.txt') }
+    subject(:theatre) { Theaters::Theatre.new('./spec/movies.txt') }
 
     it 'return time for movie' do
       expect(theatre.when?('The Terminator')).to eq "С 12 до 16"
@@ -57,7 +57,7 @@ RSpec.describe Theatre do
   end
 
   context 'cashbox' do
-    subject(:theatre) { Theatre.new('./spec/movies.txt') }
+    subject(:theatre) { Theaters::Theatre.new('./spec/movies.txt') }
 
     it '#cash return amout of money in cashbox' do
       expect(theatre.cash).to eq theatre.money

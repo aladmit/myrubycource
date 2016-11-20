@@ -2,9 +2,9 @@ require 'spec_helper.rb'
 require './cashbox.rb'
 require 'money'
 
-include Cashbox
+include Theaters::Cashbox
 
-RSpec.describe Cashbox do
+RSpec.describe Theaters::Cashbox do
   it 'create cashbox for dollars' do
     expect(create_cashbox(5)).to eq Money.new(5, 'USD')
   end
