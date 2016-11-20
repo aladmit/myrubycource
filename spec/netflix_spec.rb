@@ -55,5 +55,9 @@ RSpec.describe Netflix do
       expect(netflix).to receive(:refill).and_call_original
       netflix.pay(20)
     end
+
+    it 'write cashbox to file' do
+      expect(netflix.cash.cents).to eq File.read('./cashbox_netflix.txt').to_i
+    end
   end
 end

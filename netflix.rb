@@ -11,7 +11,7 @@ class Netflix < MovieCollection
   def initialize(file = 'movies.txt')
     super
     @money = 0
-    @cashbox = create_cashbox(0)
+    @cashbox = create_cashbox(File.read('./cashbox_netflix.txt'))
   end
 
   def show(params = {})
@@ -37,9 +37,23 @@ class Netflix < MovieCollection
   def pay(amount)
     @money += amount
     refill(amount)
+    update_cashbox
   end
+
+  def cash
+    @cashbox
+  end
+
 
   def end_time
     start_time + film.duration * 60
+  end
+
+  private
+  def update_cashbox
+    File.open('./cashbox_netflix.txt', 'w') do |file|
+      file.truncate(0)
+      file.puts @cashbox.cents
+    end
   end
 end
