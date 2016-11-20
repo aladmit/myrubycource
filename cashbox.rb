@@ -18,12 +18,10 @@ module Theaters
     end
 
     def take(who)
-      if who == 'Bank'
-        @cashbox = Money.new(0, 'USD')
-        'Проведена инкассация'
-      else
-        raise CallToPolice
-      end
+      raise CallToPolice if who != 'Bank'
+
+      @cashbox = Money.new(0, 'USD')
+      'Проведена инкассация'
     end
   end
 end
