@@ -18,10 +18,6 @@ RSpec.describe Netflix do
     end
 
     context 'should pay for movie' do
-      it 'and get money to cashbox' do
-        allow(netflix).to receive(:refill).and_call_original
-        netflix.show()
-      end
 
       it 'exception if user don`t pay' do
         netflix.money = 0
@@ -52,7 +48,12 @@ RSpec.describe Netflix do
 
   describe '#pay' do
     it 'should increase money' do
-      expect { netflix.pay(20) }.to change(netflix, :money).from(0).to(20)
+      expect { netflix.pay(20) }.to change { netflix.money }.from(0).to(20)
+    end
+
+    it 'get money to cashbox' do
+      expect(netflix).to receive(:refill).and_call_original
+      netflix.pay(20)
     end
   end
 end

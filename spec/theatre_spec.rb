@@ -65,15 +65,15 @@ RSpec.describe Theatre do
 
     context 'get money if somebody #buy_ticket' do
       it 'get 3 dollars in morning' do
-        expect { theatre.buy_ticket("8:10") }.to change(theatre, :cash).by(3)
+        expect { theatre.buy_ticket("8:10") }.to change { theatre.cash.cents }.by(3)
       end
 
       it 'get 5 dollars in day' do
-        expect { theatre.buy_ticket("14:00") }.to change(theatre, :cash).by(5)
+        expect { theatre.buy_ticket("14:00") }.to change { theatre.cash.cents }.by(5)
       end
 
       it 'get 10 dollars in evening' do
-        expect { theatre.buy_ticket("17:40") }.to change(theatre, :cash).by(10)
+        expect { theatre.buy_ticket("17:40") }.to change { theatre.cash.cents }.by(10)
       end
     end
   end

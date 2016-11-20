@@ -6,10 +6,12 @@ class Netflix < MovieCollection
   include Cashbox
 
   attr_accessor :film, :start_time, :money
+  attr_reader :cashbox
 
   def initialize(file = 'movies.txt')
     super
     @money = 0
+    @cashbox = create_cashbox(0)
   end
 
   def show(params = {})
@@ -33,6 +35,7 @@ class Netflix < MovieCollection
   end
 
   def pay(amount)
+    @money += amount
     refill(amount)
   end
 

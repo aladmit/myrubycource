@@ -4,7 +4,7 @@ require './cashbox.rb'
 class Theatre < MovieCollection
   include Cashbox
 
-  attr_accessor :film, :start_time, :money
+  attr_accessor :film, :start_time
 
   MORNING = 8..11
   MIDDLE = 12..16
@@ -20,7 +20,7 @@ class Theatre < MovieCollection
 
   def initialize(file = 'movies.txt')
     super
-    @money = 0
+    @cashbox = create_cashbox(0)
   end
 
   def show(time = nil)
@@ -56,7 +56,7 @@ class Theatre < MovieCollection
   end
 
   def cash
-    money
+    @cashbox
   end
 
   def buy_ticket(time)
