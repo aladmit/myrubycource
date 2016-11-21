@@ -2,38 +2,38 @@ require 'spec_helper.rb'
 require './cashbox.rb'
 require 'money'
 
-include Theaters::Cashbox
+class Test
+  include Theaters::Cashbox
+end
 
 RSpec.describe Theaters::Cashbox do
-  it 'create cashbox for dollars' do
-    expect(create_cashbox(5)).to eq Money.new(5, 'USD')
-  end
+  subject(:test_class) { Test.new }
 
   it 'refill cashbox' do
-    @cashbox = create_cashbox(0)
-    expect { refill(5) }.to change{@cashbox.cents}.from(0).to(5)
+    expect { test_class.refill(5) }.to change{ test_class.money.fractional }.from(0).to(5)
   end
 
   it '#money return amount of money from cashbox' do
-    @cashbox = create_cashbox(5)
-    expect(money).to eq @cashbox
+    expect(test_class.money.cents).to eq test_class.cashbox.cents
   end
 
   context '#take' do
     context 'Bank can take the money' do
       it 'money should be eq to zero' do
-        @cashbox = create_cashbox(5)
-        expect { take('Bank') }.to change { @cashbox.cents }.from(5).to(0)
+        test_class = Test.new
+        test_class.cashbox(5)
+
+        expect { test_class.take('Bank') }.to change { test_class.money.fractional }.from(5).to(0)
       end
 
       it 'and return the message' do
-        expect(take('Bank')).to eq 'Проведена инкассация'
+        expect(test_class.take('Bank')).to eq 'Проведена инкассация'
       end
     end
 
     context 'only bank can take the money' do
       it 'return exception' do
-        expect { take('somebody') }.to raise_error(CallToPolice)
+        expect { test_class.take('somebody') }.to raise_error(CallToPolice)
       end
     end
   end
