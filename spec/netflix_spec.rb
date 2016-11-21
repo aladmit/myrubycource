@@ -52,12 +52,13 @@ RSpec.describe Theaters::Netflix do
     end
 
     it 'get money to cashbox' do
-      expect(netflix).to receive(:refill).and_call_original
+      expect(netflix.class).to receive(:refill).and_call_original
       netflix.pay(20)
     end
 
-    it 'write cashbox to file' do
-      expect(netflix.cash.cents).to eq File.read('./cashbox_netflix.txt').to_i
+    it 'all netflix objects have common cashbox' do
+      netflix2 = Theaters::Netflix.new
+      expect(netflix.cash).to eq netflix2.cash
     end
   end
 end

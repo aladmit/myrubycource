@@ -4,15 +4,13 @@ require './exeptions.rb'
 
 module Theaters
   class Netflix < MovieCollection
-    include Cashbox
+    extend Cashbox
 
     attr_accessor :film, :start_time, :money
-    attr_reader :cashbox
 
     def initialize(file = 'movies.txt')
       super
       @money = 0
-      @cashbox = create_cashbox(File.read('./cashbox_netflix.txt'))
     end
 
     def show(params = {})
@@ -37,25 +35,17 @@ module Theaters
 
     def pay(amount)
       @money += amount
-      refill(amount)
-      update_cashbox
+      self.class.refill(amount)
     end
 
     def cash
-      @cashbox
-    end
-
-
-    def end_time
-      start_time + film.duration * 60
+      self.class.cashbox
     end
 
     private
-    def update_cashbox
-      File.open('./cashbox_netflix.txt', 'w') do |file|
-        file.truncate(0)
-        file.puts @cashbox.cents
-      end
+
+    def end_time
+      start_time + film.duration * 60
     end
   end
 end
