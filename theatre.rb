@@ -13,16 +13,11 @@ module Theaters
 
     FILTERS = { 8..11 => [{ period: :ancient }],
                 12..16 => [{ genre: 'Comedy' }, { genre: 'Action' }],
-                17..22 => [{ genre: 'Drama' }, { genre: 'Horror' }] }
+                17..22 => [{ genre: 'Drama' }, { genre: 'Horror' }] }.freeze
 
     PRICES = { 8..11 => 3,
                12..16 => 5,
-               17..22 => 10 }
-
-    def initialize(file = 'movies.txt')
-      super
-      @cashbox = create_cashbox(0)
-    end
+               17..22 => 10 }.freeze
 
     def show(time = nil)
       self.film = random_by_stars(filter_by_time(time))
@@ -57,7 +52,7 @@ module Theaters
     end
 
     def cash
-      @cashbox
+      cashbox
     end
 
     def buy_ticket(time)
@@ -74,6 +69,7 @@ module Theaters
     end
 
     private
+
     def detect_filter(movie)
       FILTERS.detect { |_time, filters| filters.map { |filter| check_matches(filter, movie) }
              .flatten.include?(true) }.first
