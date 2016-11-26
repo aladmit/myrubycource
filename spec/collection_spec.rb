@@ -29,7 +29,7 @@ RSpec.describe Theaters::MovieCollection do
 
     it 'by genre' do
       genres = films.filter(genre: 'Comedy').map(&:genre)
-      expect(genres).to not_be_empty.and  all include 'Comedy'
+      expect(genres).to not_be_empty.and all include 'Comedy'
     end
 
     it 'by duration' do
@@ -45,6 +45,16 @@ RSpec.describe Theaters::MovieCollection do
     it 'by actors' do
       actors = films.filter(actors: 'Alexandre Rodrigues').map(&:actors)
       expect(actors).to not_be_empty.and all include 'Alexandre Rodrigues'
+    end
+  end
+
+  describe 'collection have enumerable methods' do
+    it 'use for movies' do
+      expect(films.map(&:class).map(&:superclass)).to all eq Theaters::Movie
+    end
+
+    it 'methods' do
+      expect(films.methods).to include :map, :select, :reject
     end
   end
 end

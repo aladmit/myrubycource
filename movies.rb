@@ -9,11 +9,17 @@ module Theaters
   class MovieCollection
     include Enumerable
 
-    FIELDS = %i(url title year country date genre duration stars producer actors)
+    FIELDS = %i(url title year country date genre duration stars producer actors).freeze
 
     def initialize(file = 'movies.txt')
       @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
         Movie.create(line.to_h, self)
+      end
+    end
+
+    def each(&_block)
+      @films.each do |movie|
+        yield(movie)
       end
     end
 
@@ -49,6 +55,7 @@ module Theaters
     end
 
     private
+
     def apply_filter(params)
       params.reduce(@films) do |films, (key, value)|
         films.select { |film| film.matches?(key, value) }
