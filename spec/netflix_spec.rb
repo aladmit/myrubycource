@@ -47,6 +47,7 @@ RSpec.describe Theaters::Netflix do
   end
 
   describe '#pay' do
+    let(:netflix2) { Theaters::Netflix.new }
     it 'should increase money' do
       expect { netflix.pay(20) }.to change { netflix.money }.from(0).to(20)
     end
@@ -57,8 +58,8 @@ RSpec.describe Theaters::Netflix do
     end
 
     it 'all netflix objects have common cashbox' do
-      netflix2 = Theaters::Netflix.new
       expect(netflix.cash).to eq netflix2.cash
+      expect { netflix.pay(20) }.to change { netflix2.cash.fractional }.from(netflix.cash.fractional).to(netflix.cash.fractional + 20)
     end
   end
 end
