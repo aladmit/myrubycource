@@ -18,21 +18,21 @@ RSpec.describe Theaters::Cashbox do
   end
 
   context '#take' do
-    context 'Bank can take the money' do
-      it 'money should be eq to zero' do
+    context 'When money are taken by bank' do
+      it 'should be successfully taken' do
         test_class = Test.new
         test_class.cashbox(5)
 
         expect { test_class.take('Bank') }.to change { test_class.money.fractional }.from(5).to(0)
       end
 
-      it 'and return the message' do
+      it 'should be return the message' do
         expect(test_class.take('Bank')).to eq 'Проведена инкассация'
       end
     end
 
-    context 'only bank can take the money' do
-      it 'return exception' do
+    context 'when money are thean not bank' do
+      it 'it should call to police' do
         expect { test_class.take('somebody') }.to raise_error(CallToPolice)
       end
     end
