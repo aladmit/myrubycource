@@ -10,7 +10,7 @@ RSpec.describe Theaters::Cashbox do
   subject(:test_class) { Test.new }
 
   it 'refill cashbox' do
-    expect { test_class.refill(5) }.to change{ test_class.money.fractional }.from(0).to(5)
+    expect { test_class.refill(5) }.to change { test_class.money.fractional }.by(5)
   end
 
   it '#money return amount of money from cashbox' do
@@ -23,7 +23,7 @@ RSpec.describe Theaters::Cashbox do
         test_class = Test.new
         test_class.cashbox(5)
 
-        expect { test_class.take('Bank') }.to change { test_class.money.fractional }.from(5).to(0)
+        expect { test_class.take('Bank') }.to change { test_class.money.fractional }.by(-5)
       end
 
       it 'should be return the message' do
