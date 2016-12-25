@@ -1,8 +1,8 @@
 require 'spec_helper.rb'
 require_relative '../movies.rb'
 
-RSpec.describe AncientMovie do
-  let(:films) { MovieCollection.new('./spec/movies.txt') }
+RSpec.describe Theaters::AncientMovie do
+  let(:films) { Theaters::MovieCollection.new('./spec/movies.txt') }
   subject(:movie) { films.filter(year: 1900..1945).first }
 
   its(:to_s) { should eq "Casablanca - старый фильм (1942 год)" }

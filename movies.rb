@@ -5,50 +5,61 @@ require './classic_movie.rb'
 require './modern_movie.rb'
 require './new_movie.rb'
 
-class MovieCollection
-  FIELDS = %i(url title year country date genre duration stars producer actors)
+module Theaters
+  class MovieCollection
+    include Enumerable
 
-  def initialize(file = 'movies.txt')
-    @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-      Movie.create(line.to_h, self)
+    FIELDS = %i(url title year country date genre duration stars producer actors).freeze
+
+    def initialize(file = 'movies.txt')
+      @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
+        Movie.create(line.to_h, self)
+      end
     end
-  end
 
-  def all
-    @films
-  end
-
-  def sort_by(field)
-    @films.sort_by(&field)
-  end
-
-  def filter(params)
-    if params.is_a? Array
-      params.map { |hash| apply_filter(hash) }.flatten.uniq
-    else
-      apply_filter(params)
+    def each(&_block)
+      @films.each do |movie|
+        yield(movie)
+      end
     end
-  end
 
-  def stats(field)
-    @films.map { |film| film.send(field) }
-          .compact.sort.group_by(&:itself)
-          .map { |key, value| [key, value.count] }
-          .to_h
-  end
+    def all
+      @films
+    end
 
-  def genres
-    @genres ||= @films.map(&:genre).flatten.uniq
-  end
+    def sort_by(field)
+      @films.sort_by(&field)
+    end
 
-  def random_by_stars(films)
-    films.sort { |film| film.stars * Random.rand }.last
-  end
+    def filter(params)
+      if params.is_a? Array
+        params.map { |hash| apply_filter(hash) }.flatten.uniq
+      else
+        apply_filter(params)
+      end
+    end
 
-  private
-  def apply_filter(params)
-    params.reduce(@films) do |films, (key, value)|
-      films.select { |film| film.matches?(key, value) }
+    def stats(field)
+      @films.map { |film| film.send(field) }
+            .compact.sort.group_by(&:itself)
+            .map { |key, value| [key, value.count] }
+            .to_h
+    end
+
+    def genres
+      @genres ||= @films.map(&:genre).flatten.uniq
+    end
+
+    def random_by_stars(films)
+      films.sort { |film| film.stars * Random.rand }.last
+    end
+
+    private
+
+    def apply_filter(params)
+      params.reduce(@films) do |films, (key, value)|
+        films.select { |film| film.matches?(key, value) }
+      end
     end
   end
 end

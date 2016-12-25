@@ -1,8 +1,8 @@
 require 'spec_helper.rb'
 require_relative '../netflix.rb'
 
-RSpec.describe Netflix do
-  subject(:netflix) { Netflix.new('./spec/movies.txt') }
+RSpec.describe Theaters::Netflix do
+  subject(:netflix) { Theaters::Netflix.new('./spec/movies.txt') }
 
   describe '#show' do
     before(:each) do
@@ -18,6 +18,7 @@ RSpec.describe Netflix do
     end
 
     context 'should pay for movie' do
+
       it 'exception if user don`t pay' do
         netflix.money = 0
         expect { netflix.show() }.to raise_error(NoMoney)
@@ -46,8 +47,19 @@ RSpec.describe Netflix do
   end
 
   describe '#pay' do
+    let(:netflix2) { Theaters::Netflix.new }
     it 'should increase money' do
-      expect { netflix.pay(20) }.to change(netflix, :money).from(0).to(20)
+      expect { netflix.pay(20) }.to change { netflix.money }.by(20)
+    end
+
+    it 'get money to cashbox' do
+      expect(netflix.class).to receive(:refill).and_call_original
+      netflix.pay(20)
+    end
+
+    it 'all netflix objects have common cashbox' do
+      expect(netflix.cash).to eq netflix2.cash
+      expect { netflix.pay(20) }.to change { netflix2.cash.fractional }.by(20)
     end
   end
 end
