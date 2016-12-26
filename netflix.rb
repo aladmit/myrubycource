@@ -14,7 +14,12 @@ module Theaters
     end
 
     def show(params = {})
-      movie = random_by_stars(filter(params))
+      movie =
+        if block_given?
+          @films.select { |film| yield film }.sample
+        else
+          random_by_stars(filter(params))
+        end
       raise NoMoney.new(movie.title, movie.price, money) if money < movie.price
 
       @money -= movie.price
