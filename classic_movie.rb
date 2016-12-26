@@ -9,6 +9,7 @@ module Theaters
     end
 
     private
+
     def producer_movies_count
       @collection.filter(producer: producer).count - 1
     end

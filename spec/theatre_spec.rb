@@ -15,8 +15,8 @@ RSpec.describe Theaters::Theatre do
     end
 
     it 'return film with filtering by time' do
-      allow(theatre).to receive(:filter_by_time).with("8:30").and_call_original
-      theatre.show("8:30")
+      allow(theatre).to receive(:filter_by_time).with('8:30').and_call_original
+      theatre.show('8:30')
     end
   end
 
@@ -32,11 +32,11 @@ RSpec.describe Theaters::Theatre do
     end
 
     it 'return Comedy and Action in the middle of day' do
-      expect(movies_at(12..16)).to all have_genres("Action", "Comedy")
+      expect(movies_at(12..16)).to all have_genres('Action', 'Comedy')
     end
 
     it 'return Drama and Horror in the evening' do
-      expect(movies_at(17..22)).to all have_genres("Horror", "Drama")
+      expect(movies_at(17..22)).to all have_genres('Horror', 'Drama')
     end
   end
 
@@ -44,7 +44,7 @@ RSpec.describe Theaters::Theatre do
     subject(:theatre) { Theaters::Theatre.new('./spec/movies.txt') }
 
     it 'return time for movie' do
-      expect(theatre.when?('The Terminator')).to eq "С 12 до 16"
+      expect(theatre.when?('The Terminator')).to eq 'С 12 до 16'
     end
 
     it 'return exception if movie not found' do
@@ -65,15 +65,15 @@ RSpec.describe Theaters::Theatre do
 
     context 'get money if somebody #buy_ticket' do
       it 'get 3 dollars in morning' do
-        expect { theatre.buy_ticket("8:10") }.to change { theatre.cash.cents }.by(3)
+        expect { theatre.buy_ticket('8:10') }.to change { theatre.cash.cents }.by(3)
       end
 
       it 'get 5 dollars in day' do
-        expect { theatre.buy_ticket("14:00") }.to change { theatre.cash.cents }.by(5)
+        expect { theatre.buy_ticket('14:00') }.to change { theatre.cash.cents }.by(5)
       end
 
       it 'get 10 dollars in evening' do
-        expect { theatre.buy_ticket("17:40") }.to change { theatre.cash.cents }.by(10)
+        expect { theatre.buy_ticket('17:40') }.to change { theatre.cash.cents }.by(10)
       end
     end
   end

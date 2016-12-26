@@ -14,23 +14,21 @@ module Theaters
     end
 
     def show(params = {})
-      movie = random_by_stars(self.filter(params))
+      movie = random_by_stars(filter(params))
       raise NoMoney.new(movie.title, movie.price, money) if money < movie.price
 
       @money -= movie.price
       self.film = movie
       self.start_time = Time.now
 
-      "Now showing: #{film.to_s}"
+      "Now showing: #{film}"
     end
 
     def how_much?(title)
       movie = filter(title: title).first
-      if movie.nil?
-        raise MovieNotFound(title)
-      else
-        movie.price
-      end
+      raise MovieNotFound(title) if movie.nil?
+
+      movie.price
     end
 
     def pay(amount)

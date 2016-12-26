@@ -56,7 +56,7 @@ module Theaters
     end
 
     def buy_ticket(time)
-      time = DateTime.parse(time).hour or raise MovieTimeNotFound.new("")
+      time = DateTime.parse(time).hour or raise MovieTimeNotFound.new('')
 
       movie = random_by_stars(filter_by_time("#{time}:00"))
 
@@ -71,8 +71,10 @@ module Theaters
     private
 
     def detect_filter(movie)
-      FILTERS.detect { |_time, filters| filters.map { |filter| check_matches(filter, movie) }
-             .flatten.include?(true) }.first
+      FILTERS.detect do |_time, filters|
+        filters.map { |filter| check_matches(filter, movie) }
+               .flatten.include?(true)
+      end.first
     end
 
     def check_matches(filter, movie)

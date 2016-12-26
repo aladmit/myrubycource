@@ -10,15 +10,14 @@ RSpec.describe Theaters::Netflix do
     end
 
     it 'show some film now' do
-      expect(netflix.show()).to match(/Now showing:/)
+      expect(netflix.show).to match(/Now showing:/)
     end
 
     it 'use filter' do
-      expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first.to_s}"
+      expect(netflix.show(producer: 'Oliver Stone', period: :modern)).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first}"
     end
 
     context 'should pay for movie' do
-
       it 'exception if user don`t pay' do
         netflix.money = 0
         expect { netflix.show() }.to raise_error(NoMoney)
