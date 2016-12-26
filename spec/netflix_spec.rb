@@ -17,6 +17,10 @@ RSpec.describe Theaters::Netflix do
       expect(netflix.show(producer: 'Oliver Stone', period: :modern)).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first}"
     end
 
+    it 'filtering by code block' do
+      expect(netflix.show(producer: 'Oliver Stone', period: :modern)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') }
+    end
+
     context 'should pay for movie' do
       it 'exception if user don`t pay' do
         netflix.money = 0
