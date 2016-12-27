@@ -23,8 +23,8 @@ RSpec.describe Theaters::Netflix do
       end
 
       it 'by user filter' do
-        netflix.define_filter(:by_oliver) { |movie| movie.producer.include?('Oliver Stone') }
-        expect(netflix.show(by_oliver: true)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') }
+        netflix.define_filter(:by_oliver) { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
+        expect(netflix.show(by_oliver: true)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
       end
     end
 

@@ -11,6 +11,7 @@ module Theaters
     def initialize(file = 'movies.txt')
       super
       @money = 0
+      @user_filters = {}
     end
 
     def show(params = {})
@@ -18,7 +19,7 @@ module Theaters
         if block_given?
           @films.select { |film| yield film }.sample
         else
-          random_by_stars(filter(params))
+          random_by_stars(apply_filters(params))
         end
       raise NoMoney.new(movie.title, movie.price, money) if money < movie.price
 
@@ -43,6 +44,24 @@ module Theaters
 
     def cash
       self.class.cashbox
+    end
+
+    def define_filter(key, &block)
+      @user_filters[key] = block
+    end
+
+    def apply_user_filters(user_filters)
+      user_filters.reduce(@films) do |films, (key, value)|
+        films.select { |film| @user_filters[key].call film }
+      end
+    end
+
+    def apply_filters(params)
+      user_filters = params.select { |key, value| @user_filters.keys.include?(key) && value }
+      system_filters = (params.to_a - user_filters.to_a).to_h
+
+      movies = apply_user_filters(user_filters)
+      filter(system_filters, movies)
     end
 
     private
