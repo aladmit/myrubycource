@@ -19,7 +19,7 @@ RSpec.describe Theaters::Netflix do
 
     context 'filtering' do
       it 'by code block' do
-        expect(netflix.show(producer: 'Oliver Stone', period: :modern)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') }
+        expect(netflix.show { |movie| movie.producer.include?('Oliver Stone') }).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
       end
 
       it 'by user filter' do
