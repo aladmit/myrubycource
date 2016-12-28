@@ -59,12 +59,12 @@ module Theaters class Netflix < MovieCollection
     end
 
     def apply_filters(params)
-      filters = params.partition do |key, _value|
+      user_filters, standart_filters = params.partition do |key, _value|
         @user_filters.keys.include?(key)
       end
 
-      movies = apply_user_filters(filters.first.to_h)
-      filter(filters[1].to_h, movies)
+      movies = apply_user_filters(user_filters.to_h)
+      filter(standart_filters.to_h, movies)
     end
 
     def apply_user_filters(user_filters)
