@@ -32,6 +32,13 @@ RSpec.describe Theaters::Netflix do
           netflix.define_filter(:modern_by) { |movie, producer| movie.producer.include?(producer) && movie.period == :modern }
           expect(netflix.show(modern_by: 'Oliver Stone')).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
         end
+
+        it 'with nestet filters' do
+          netflix.define_filter(:modern_by) { |movie, producer| movie.producer.include?(producer) && movie.period == :modern }
+          netflix.define_filter(:modern_by_oliver, from: :modern_by, arg: 'Oliver Stone')
+
+          expect(netflix.show(modern_by_oliver: true)).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
+        end
       end
     end
 

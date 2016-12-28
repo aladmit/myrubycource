@@ -12,6 +12,7 @@ module Theaters
       super
       @money = 0
       @user_filters = {}
+      @user_nested_filters = {}
     end
 
     def show(params = {})
@@ -46,8 +47,12 @@ module Theaters
       self.class.cashbox
     end
 
-    def define_filter(key, &block)
-      @user_filters[key] = block
+    def define_filter(key, from: nil, arg: nil, &block)
+      if from.nil?
+        @user_filters[key] = block
+      else
+        create_nested_filter(key, from, arg)
+      end
     end
 
     private
@@ -57,17 +62,30 @@ module Theaters
     end
 
     def apply_filters(params)
-      filters = params.partition do |key, _value|
-        @user_filters.keys.include?(key)
-      end
+      user_filters = params.select { |key, _value| @user_filters.keys.include?(key) }
+      user_nested_filters = params.select { |key, _value| @user_nested_filters.keys.include?(key) }
+      system_filters = (params.to_a - user_filters.to_a - user_nested_filters.to_a).to_h
 
-      movies = apply_user_filters(filters.first.to_h)
-      filter(filters[1].to_h, movies)
+
+      movies = apply_user_filters(user_filters)
+      movies = apply_nested_filters(user_nested_filters, movies)
+      filter(system_filters, movies)
     end
 
     def apply_user_filters(user_filters)
       user_filters.reduce(@films) do |films, (key, value)|
         films.select { |film| @user_filters[key].call film, value }
+      end
+    end
+
+    def create_nested_filter(key, from, arg)
+      @user_nested_filters[key] = { from: from, arg: arg }
+    end
+
+    def apply_nested_filters(filters, all_movies)
+      filters.reduce(all_movies) do |movies, (key, value)|
+        filter = @user_nested_filters[key]
+        movies.select { |movie| @user_filters[filter[:from]].call movie, filter[:arg] }
       end
     end
   end
