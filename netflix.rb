@@ -1,9 +1,7 @@
 require './movies.rb'
 require './cashbox.rb'
 require './exeptions.rb'
-
-module Theaters
-  class Netflix < MovieCollection
+module Theaters class Netflix < MovieCollection
     extend Cashbox
 
     attr_accessor :film, :start_time, :money
@@ -12,7 +10,6 @@ module Theaters
       super
       @money = 0
       @user_filters = {}
-      @user_nested_filters = {}
     end
 
     def show(params = {})
@@ -62,14 +59,12 @@ module Theaters
     end
 
     def apply_filters(params)
-      user_filters = params.select { |key, _value| @user_filters.keys.include?(key) }
-      user_nested_filters = params.select { |key, _value| @user_nested_filters.keys.include?(key) }
-      system_filters = (params.to_a - user_filters.to_a - user_nested_filters.to_a).to_h
+      filters = params.partition do |key, _value|
+        @user_filters.keys.include?(key)
+      end
 
-
-      movies = apply_user_filters(user_filters)
-      movies = apply_nested_filters(user_nested_filters, movies)
-      filter(system_filters, movies)
+      movies = apply_user_filters(filters.first.to_h)
+      filter(filters[1].to_h, movies)
     end
 
     def apply_user_filters(user_filters)
@@ -79,14 +74,7 @@ module Theaters
     end
 
     def create_nested_filter(key, from, arg)
-      @user_nested_filters[key] = { from: from, arg: arg }
-    end
-
-    def apply_nested_filters(filters, all_movies)
-      filters.reduce(all_movies) do |movies, (key, value)|
-        filter = @user_nested_filters[key]
-        movies.select { |movie| @user_filters[filter[:from]].call movie, filter[:arg] }
-      end
+      @user_filters[key] = Proc.new { |film| @user_filters[from].call film, arg }
     end
   end
 end
