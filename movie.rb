@@ -41,7 +41,7 @@ module Theaters
       end.new(fields, collection)
     end
 
-    def has_genre?(name)
+    def genre?(name)
       raise GenreDoesNotExist unless @collection.genres.include?(name)
       genre.include?(name)
     end

@@ -7,7 +7,7 @@ RSpec.describe Theaters::NewMovie do
 
   its(:to_s) { should eq "The Dark Knight - новинка, вышло #{Time.new.year - movie.year} лет назад!" }
 
-  it "should have a price" do
+  it 'should have a price' do
     expect(movie.price).to eq 5
   end
 

@@ -10,15 +10,39 @@ RSpec.describe Theaters::Netflix do
     end
 
     it 'show some film now' do
-      expect(netflix.show()).to match(/Now showing:/)
+      expect(netflix.show).to match(/Now showing:/)
     end
 
     it 'use filter' do
-      expect(netflix.show({producer: 'Oliver Stone', period: :modern})).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first.to_s}"
+      expect(netflix.show(producer: 'Oliver Stone', period: :modern)).to eq "Now showing: #{netflix.filter(producer: 'Oliver Stone', period: :modern).first}"
+    end
+
+    context 'filtering' do
+      it 'by code block' do
+        expect(netflix.show { |movie| movie.producer.include?('Oliver Stone') }).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
+      end
+
+      context 'by user filter' do
+        it 'without argument' do
+          netflix.define_filter(:by_oliver) { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
+          expect(netflix.show(by_oliver: true)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
+        end
+
+        it 'with arguments' do
+          netflix.define_filter(:modern_by) { |movie, producer| movie.producer.include?(producer) && movie.period == :modern }
+          expect(netflix.show(modern_by: 'Oliver Stone')).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
+        end
+
+        it 'with nestet filters' do
+          netflix.define_filter(:modern_by) { |movie, producer| movie.producer.include?(producer) && movie.period == :modern }
+          netflix.define_filter(:modern_by_oliver, from: :modern_by, arg: 'Oliver Stone')
+
+          expect(netflix.show(modern_by_oliver: true)).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
+        end
+      end
     end
 
     context 'should pay for movie' do
-
       it 'exception if user don`t pay' do
         netflix.money = 0
         expect { netflix.show() }.to raise_error(NoMoney)

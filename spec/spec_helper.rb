@@ -14,7 +14,7 @@ RSpec.configure do |config|
 end
 
 require './netflix.rb'
-RSpec.shared_examples "movie type" do |years, movie_class|
+RSpec.shared_examples 'movie type' do |years, movie_class|
   it "with #{movie_class} from #{years.first} to #{years.last}" do
     array_of_classes = films.filter(year: years).collect(&:class).uniq
     expect(array_of_classes.size).to eq 1

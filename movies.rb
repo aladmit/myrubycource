@@ -31,11 +31,11 @@ module Theaters
       @films.sort_by(&field)
     end
 
-    def filter(params)
+    def filter(params, movies = @films)
       if params.is_a? Array
-        params.map { |hash| apply_filter(hash) }.flatten.uniq
+        params.map { |hash| apply_filter(hash, movies) }.flatten.uniq
       else
-        apply_filter(params)
+        apply_filter(params, movies)
       end
     end
 
@@ -56,8 +56,8 @@ module Theaters
 
     private
 
-    def apply_filter(params)
-      params.reduce(@films) do |films, (key, value)|
+    def apply_filter(params, movies)
+      params.reduce(movies) do |films, (key, value)|
         films.select { |film| film.matches?(key, value) }
       end
     end
