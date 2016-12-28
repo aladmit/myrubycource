@@ -50,12 +50,6 @@ module Theaters
       @user_filters[key] = block
     end
 
-    def apply_user_filters(user_filters)
-      user_filters.reduce(@films) do |films, (key, _value)|
-        films.select { |film| @user_filters[key].call film }
-      end
-    end
-
     private
 
     def end_time
@@ -69,6 +63,12 @@ module Theaters
 
       movies = apply_user_filters(filters.first.to_h)
       filter(filters[1].to_h, movies)
+    end
+
+    def apply_user_filters(user_filters)
+      user_filters.reduce(@films) do |films, (key, _value)|
+        films.select { |film| @user_filters[key].call film }
+      end
     end
   end
 end
