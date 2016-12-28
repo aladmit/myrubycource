@@ -22,9 +22,16 @@ RSpec.describe Theaters::Netflix do
         expect(netflix.show { |movie| movie.producer.include?('Oliver Stone') }).to eq netflix.show(producer: 'Oliver Stone', period: :modern)
       end
 
-      it 'by user filter' do
-        netflix.define_filter(:by_oliver) { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
-        expect(netflix.show(by_oliver: true)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
+      context 'by user filter' do
+        it 'without argument' do
+          netflix.define_filter(:by_oliver) { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
+          expect(netflix.show(by_oliver: true)).to eq netflix.show { |movie| movie.producer.include?('Oliver Stone') && movie.period == :modern }
+        end
+
+        it 'with arguments' do
+          netflix.define_filter(:modern_by) { |movie, producer| movie.producer.include?(producer) && movie.period == :modern }
+          netflix.show(modern_by: 'Oliver Stone').to eq netflix.show(producer: 'Oliver Stone', period: :modern)
+        end
       end
     end
 
