@@ -57,8 +57,8 @@ module Theaters
     end
 
     def apply_filters(params)
-      filters = params.partition do |key, value|
-        @user_filters.keys.include?(key) && value
+      filters = params.partition do |key, _value|
+        @user_filters.keys.include?(key)
       end
 
       movies = apply_user_filters(filters.first.to_h)
@@ -66,8 +66,8 @@ module Theaters
     end
 
     def apply_user_filters(user_filters)
-      user_filters.reduce(@films) do |films, (key, _value)|
-        films.select { |film| @user_filters[key].call film }
+      user_filters.reduce(@films) do |films, (key, value)|
+        films.select { |film| @user_filters[key].call film, value }
       end
     end
   end
