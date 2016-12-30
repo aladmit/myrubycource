@@ -16,10 +16,19 @@ module Theaters
       attribute :stars, Fixnum, strict: true
       attribute :producer, String
       attribute :actors, StrArray
-      attribute :month, String, default: :default_month
-      attribute :period, Symbol, default: :default_period
-      attribute :price, Float, default: :default_price
       attribute :collection
+    end
+
+    def month
+      date[1]
+    end
+
+    def price
+      self.class::PRICE
+    end
+
+    def period
+      self.class.to_s.match(/(?<=Theaters::).*(?=Movie)/).to_s.downcase.to_sym
     end
 
     def matches?(filter, value)
@@ -50,20 +59,6 @@ module Theaters
     def genre?(name)
       raise GenreDoesNotExist unless @collection.genres.include?(name)
       genre.include?(name)
-    end
-
-    private
-
-    def default_period
-      self.class.to_s.match(/(?<=Theaters::).*(?=Movie)/).to_s.downcase.to_sym
-    end
-
-    def default_price
-      self.class::PRICE
-    end
-
-    def default_month
-      date[1]
     end
   end
 end
