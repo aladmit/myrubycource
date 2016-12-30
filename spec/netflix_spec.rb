@@ -66,6 +66,20 @@ RSpec.describe Theaters::Netflix do
     end
   end
 
+  context 'sort' do
+    context 'by genre' do
+      it 'should return MovieByGenre class' do
+        expect(netflix.by_genre.class).to eq MovieByGenre
+      end
+
+      ['comedy', 'drama', 'action', 'biography', 'history'].each do |genre|
+        it genre do
+          expect(netflix.by_genre.send(genre)).to all have_genres(genre)
+        end
+      end
+    end
+  end
+
   it '#how_much? should return movie price' do
     expect(netflix.how_much?('The Terminator')).to eq 3
   end
