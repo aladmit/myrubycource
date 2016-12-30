@@ -13,15 +13,8 @@ module Theaters
 
     def initialize(file = 'movies.txt')
       @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-        line = line.to_h
-        line[:year] = line[:year].to_i
-        line[:date] = line[:date].split('-')
-        line[:genre] = line[:genre].split(',')
-        line[:duration] = line[:duration].to_i
-        line[:stars] = line[:stars].to_i
-        line[:actors] = line[:actors].split(',')
-        line[:collection] = self
-        Movie.create(line)
+        line['collection'] = self
+        Movie.create(line.to_h)
       end
     end
 

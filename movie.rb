@@ -1,4 +1,5 @@
 require 'virtus'
+require './virtus_attributes.rb'
 
 module Theaters
   class Movie
@@ -7,15 +8,15 @@ module Theaters
     values do
       attribute :url, String
       attribute :title, String
-      attribute :year, Fixnum
+      attribute :year, Fixnum, strict: true
       attribute :country, String
-      attribute :date, Array
-      attribute :genre, Array
-      attribute :duration, Fixnum
-      attribute :stars, Fixnum
+      attribute :date, DateArray
+      attribute :genre, StrArray
+      attribute :duration, Duration, strict: true
+      attribute :stars, Fixnum, strict: true
       attribute :producer, String
-      attribute :actors, Array
-      attribute :month, String
+      attribute :actors, StrArray
+      attribute :month, String, default: :default_month
       attribute :period, Symbol, default: :default_period
       attribute :price, Float, default: :default_price
       attribute :collection
@@ -59,6 +60,10 @@ module Theaters
 
     def default_price
       self.class::PRICE
+    end
+
+    def default_month
+      date[1]
     end
   end
 end
