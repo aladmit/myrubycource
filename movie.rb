@@ -10,7 +10,7 @@ module Theaters
       attribute :title, String
       attribute :year, Fixnum, strict: true
       attribute :country, String
-      attribute :date, DateArray
+      attribute :date, Date
       attribute :genre, StrArray
       attribute :duration, Duration, strict: true
       attribute :stars, Fixnum, strict: true
@@ -20,7 +20,7 @@ module Theaters
     end
 
     def month
-      date[1]
+      date.month
     end
 
     def price

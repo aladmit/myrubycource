@@ -13,8 +13,7 @@ module Theaters
 
     def initialize(file = 'movies.txt')
       @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-        line['collection'] = self
-        Movie.create(line.to_h)
+        Movie.create(line.to_h.merge(collection: self))
       end
     end
 

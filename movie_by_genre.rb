@@ -3,7 +3,7 @@ class MovieByGenre
     genres = collection.genres.map(&:downcase)
 
     genres.each do |genre|
-      self.class.send(:define_method, genre) do
+      define_singleton_method(genre) do
         collection.filter(genre: genre)
       end
     end
