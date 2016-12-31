@@ -2,6 +2,7 @@ require './movies.rb'
 require './cashbox.rb'
 require './exeptions.rb'
 require './movie_by_genre.rb'
+require './movie_by_country.rb'
 
 module Theaters
   class Netflix < MovieCollection
@@ -17,6 +18,10 @@ module Theaters
 
     def by_genre
       MovieByGenre.new(self)
+    end
+
+    def by_country
+      MovieByCountry.new(self)
     end
 
     def show(params = {})
