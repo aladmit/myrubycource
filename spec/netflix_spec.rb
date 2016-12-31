@@ -66,7 +66,7 @@ RSpec.describe Theaters::Netflix do
     end
   end
 
-  context 'sort' do
+  context 'get movies' do
     context 'by genre' do
       it 'should return MovieByGenre class' do
         expect(netflix.by_genre.class).to eq MovieByGenre
@@ -75,6 +75,18 @@ RSpec.describe Theaters::Netflix do
       ['comedy', 'drama', 'action', 'biography', 'history'].each do |genre|
         it genre do
           expect(netflix.by_genre.send(genre)).to all have_genres(genre)
+        end
+      end
+    end
+
+    context 'by country' do
+      it 'should return MovieByCountry class' do
+        expect(netflix.by_country.class).to eq MovieByCountry
+      end
+
+      ['use', 'canada'].each do |country|
+        it country do
+          expect(netflix.by_country.send(country)).to all from_country(country)
         end
       end
     end
