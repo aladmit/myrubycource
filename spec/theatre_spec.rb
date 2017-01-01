@@ -77,4 +77,27 @@ RSpec.describe Theaters::Theatre do
       end
     end
   end
+
+  context 'dsl' do
+    subject(:theatre) do
+      Theaters::Theatre.new do
+        hall :red, title: 'Красный зал', places: 100
+
+        period '9:00'..'11:00' do
+          description 'Утренний сеанс'
+          filters genre: 'Comedy', year: 1900..1980
+          price 10
+          hall :red, :blue
+        end
+      end
+    end
+
+    it 'should create hall' do
+      expect(theatre.halls).to eq Hash.new(red: { title: 'Красный зал', places: 100 })
+    end
+
+    it 'should create period' do
+
+    end
+  end
 end
