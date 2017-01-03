@@ -1,5 +1,7 @@
 require './movies.rb'
 require './cashbox.rb'
+require './theatre_hall.rb'
+require './theatre_period.rb'
 
 module Theaters
   class Theatre < MovieCollection
@@ -18,6 +20,27 @@ module Theaters
     PRICES = { 8..11 => 3,
                12..16 => 5,
                17..22 => 10 }.freeze
+
+    def initialize(file = 'movies.txt', &block)
+      if block_given?
+        self.class.class_eval(&block)
+      else
+        super
+      end
+    end
+
+    def self.hall(color, title: nil, places: 0)
+      @@halls ||= []
+      @@halls << Theaters::TheatreHall.new(color, title, places)
+    end
+
+    def self.period(time, &block)
+      period = Theaters::TheatrePeriod.new(time)
+      period.class.class_eval(&block)
+
+      @@periods ||= []
+      @@periods << period
+    end
 
     def show(time = nil)
       self.film = random_by_stars(filter_by_time(time))

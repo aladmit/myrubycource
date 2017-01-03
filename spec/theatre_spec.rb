@@ -1,5 +1,7 @@
 require 'spec_helper.rb'
 require './theatre.rb'
+require './theatre_hall.rb'
+require './theatre_period.rb'
 
 RSpec.describe Theaters::Theatre do
   context '#show' do
@@ -79,25 +81,42 @@ RSpec.describe Theaters::Theatre do
   end
 
   context 'dsl' do
-    subject(:theatre) do
-      Theaters::Theatre.new do
+    it 'should create hall' do
+      theatre = Theaters::Theatre.new do
         hall :red, title: 'Красный зал', places: 100
+      end
 
-        period '9:00'..'11:00' do
-          description 'Утренний сеанс'
-          filters genre: 'Comedy', year: 1900..1980
-          price 10
-          hall :red, :blue
+      hall = theatre.class.class_variable_get(:@@halls).first
+      expect(hall.class).to eq Theaters::TheatreHall
+      expect(hall.color).to eq :red
+      expect(hall.title).to eq 'Красный зал'
+      expect(hall.places).to eq 100
+    end
+
+    context 'create period' do
+      subject(:theatre) do
+        Theaters::Theatre.new do
+          hall :red, title: 'Красный зал', places: 100
+
+          period '09:00'..'11:00' do
+            description 'Утренний сеанс'
+            filters genre: 'Сomedy', year: 1900..1980
+            price 10
+            hall :red, :blue
+          end
         end
       end
-    end
 
-    it 'should create hall' do
-      expect(theatre.halls).to eq Hash.new(red: { title: 'Красный зал', places: 100 })
-    end
+      it 'with time' do
+        period = theatre.class.class_variable_get(:@@periods).first
 
-    it 'should create period' do
-
+        expect(period.class).to eq Theaters::TheatrePeriod
+        expect(period.time).to eq '09:00'..'11:00'
+        expect(period.description).to eq 'Утренний сеанс'
+        expect(period.filters).to include(genre: 'Comedy', year: 1900..1980)
+        expect(period.price).to eq 10
+        expect(period.hall).to include(:red, :blue)
+      end
     end
   end
 end
