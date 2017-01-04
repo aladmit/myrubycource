@@ -94,8 +94,8 @@ RSpec.describe Theaters::Theatre do
     end
 
     context 'create period' do
-      subject(:theatre) do
-        Theaters::Theatre.new do
+      subject(:period) do
+        theatre = Theaters::Theatre.new do
           hall :red, title: 'Красный зал', places: 100
 
           period '09:00'..'11:00' do
@@ -105,16 +105,32 @@ RSpec.describe Theaters::Theatre do
             hall :red, :blue
           end
         end
+
+        theatre.class.class_variable_get(:@@periods).first
+      end
+
+      it 'from class' do
+        expect(period.class).to eq Theaters::TheatrePeriod
       end
 
       it 'with time' do
-        period = theatre.class.class_variable_get(:@@periods).first
-
-        expect(period.class).to eq Theaters::TheatrePeriod
         expect(period.time).to eq '09:00'..'11:00'
+      end
+
+      it 'with description' do
         expect(period.description).to eq 'Утренний сеанс'
-        expect(period.filters).to include(genre: 'Comedy', year: 1900..1980)
+      end
+
+      it 'with filters' do
+        expect(period.filters[:year]).to eq 1900..1980
+        expect(period.filters[:genre]).to eq 'Comedy'
+      end
+
+      it 'with price' do
         expect(period.price).to eq 10
+      end
+
+      it 'with halls' do
         expect(period.hall).to include(:red, :blue)
       end
     end

@@ -9,6 +9,9 @@ module Theaters
 
     attr_accessor :film, :start_time
 
+    @@halls ||= []
+    @@periods ||= []
+
     MORNING = 8..11
     MIDDLE = 12..16
     EVENING = 17..22
@@ -30,15 +33,12 @@ module Theaters
     end
 
     def self.hall(color, title: nil, places: 0)
-      @@halls ||= []
       @@halls << Theaters::TheatreHall.new(color, title, places)
     end
 
     def self.period(time, &block)
-      period = Theaters::TheatrePeriod.new(time)
-      period.class.class_eval(&block)
+      period = Theaters::TheatrePeriod.new(time, &block)
 
-      @@periods ||= []
       @@periods << period
     end
 
