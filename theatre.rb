@@ -38,6 +38,7 @@ module Theaters
 
     def self.period(time, &block)
       period = Theaters::TheatrePeriod.new(time, &block)
+      raise InvalidPeriod if invalid_period?(period)
 
       @@periods << period
     end
@@ -102,6 +103,13 @@ module Theaters
 
     def check_matches(filter, movie)
       filter.map { |key, value| movie.matches?(key, value) }
+    end
+
+    def self.invalid_period?(period)
+      periods = period.hall.map { |color| @@periods.select { |p| p.hall.include?(color) } }.flatten
+      times = periods.map { |p| p.time }
+      puts times
+      times.any? { |time| time.cover?(period.time.begin) && time.cover?(period.time.end) }
     end
   end
 end
