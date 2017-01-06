@@ -106,7 +106,9 @@ RSpec.describe Theaters::Theatre do
           end
         end
 
-        @period = @theatre.class.class_variable_get(:@@periods).first
+        @period = @theatre.class.class_variable_get(:@@periods).select do |p|
+          p.time == ('09:00'..'11:00')
+        end.first
       end
 
       it 'from class' do
@@ -160,14 +162,25 @@ RSpec.describe Theaters::Theatre do
       end
 
       it 'should use filters from periods' do
-        expect(@theatre).to receive(:filter_by_period).with('12:00').and_call_original
+        allow(@theatre).to receive(:filter_by_period).with('12:00').and_call_original
         @theatre.show('12:00')
       end
     end
 
     it 'filter_by_period apply filters from period' do
+      @theatre = Theaters::Theatre.new do
+        hall :red, title: 'Красный зал', places: 100
+
+        period '20:00'..'22:00' do
+          description 'Вечерний сеанс'
+          filters genre: 'Сomedy', year: 1900..1980
+          price 10
+          hall :red, :blue
+        end
+      end
+
       expect(@theatre).to receive(:filter).with(genre: 'Сomedy', year: 1900..1980).and_call_original
-      @theatre.filter_by_period('10:00')
+      @theatre.filter_by_period('21:00')
     end
   end
 end

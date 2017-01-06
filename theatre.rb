@@ -25,11 +25,8 @@ module Theaters
                17..22 => 10 }.freeze
 
     def initialize(file = 'movies.txt', &block)
-      if block_given?
-        self.class.class_eval(&block)
-      else
-        super
-      end
+      super
+      self.class.class_eval(&block) if block_given?
     end
 
     def self.hall(color, title: nil, places: 0)
@@ -44,9 +41,13 @@ module Theaters
     end
 
     def show(time = nil)
-      self.film = random_by_stars(filter_by_time(time))
-      self.start_time = Time.now
+      if @@periods.empty?
+        self.film = random_by_stars(filter_by_time(time))
+      else
+        self.film = random_by_stars(filter_by_period(time))
+      end
 
+      self.start_time = Time.now
       "Now showing: #{film.title} #{start_time} - #{end_time}"
     end
 
@@ -73,6 +74,11 @@ module Theaters
       [MORNING, MIDDLE, EVENING].each do |part_of_day|
         return filter(FILTERS[part_of_day]) if part_of_day.include?(time)
       end
+    end
+
+    def filter_by_period(time)
+      period = @@periods.select { |p| p.time.cover?(time) }.sample
+      filter(period.filters)
     end
 
     def cash

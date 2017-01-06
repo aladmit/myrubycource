@@ -35,6 +35,7 @@ module Theaters
       if params.is_a? Array
         params.map { |hash| apply_filter(hash, movies) }.flatten.uniq
       else
+        raise if @films.nil?
         apply_filter(params, movies)
       end
     end
