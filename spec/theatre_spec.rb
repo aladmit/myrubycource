@@ -81,7 +81,7 @@ RSpec.describe Theaters::Theatre do
   end
 
   context 'dsl' do
-    it 'should create hall' do
+    it 'create hall' do
       theatre = Theaters::Theatre.new do
         hall :red, title: 'Красный зал', places: 100
       end
@@ -143,6 +143,31 @@ RSpec.describe Theaters::Theatre do
           end
         end.to raise_error(InvalidPeriod)
       end
+    end
+
+    context '#show' do
+      before(:all) do
+        @theatre = Theaters::Theatre.new do
+          hall :green, title: 'Зеленый зал', places: 100
+
+          period '11:00'..'16:00' do
+            description 'Спецпоказ Терминатора'
+            filters title: 'The Terminator'
+            price 50
+            hall :green
+          end
+        end
+      end
+
+      it 'should use filters from periods' do
+        expect(@theatre).to receive(:filter_by_period).with('12:00').and_call_original
+        @theatre.show('12:00')
+      end
+    end
+
+    it 'filter_by_period apply filters from period' do
+      expect(@theatre).to receive(:filter).with(genre: 'Сomedy', year: 1900..1980).and_call_original
+      @theatre.filter_by_period('10:00')
     end
   end
 end
