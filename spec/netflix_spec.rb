@@ -86,8 +86,12 @@ RSpec.describe Theaters::Netflix do
 
       ['use', 'canada'].each do |country|
         it country do
-          expect(netflix.by_country.send(country)).to all from_country(country)
+          expect(netflix.by_country.send(country)).to all have_attributes(country: country)
         end
+      end
+
+      it 'should return exception if get useless args' do
+        expect { netflix.by_country.canada(arg: 'none') }.to raise_error ArgumentError
       end
     end
   end
