@@ -8,6 +8,7 @@ module Theaters
     include Cashbox
 
     attr_accessor :film, :start_time
+    attr_reader :halls, :periods
 
     MORNING = 8..11
     MIDDLE = 12..16

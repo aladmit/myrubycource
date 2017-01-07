@@ -86,7 +86,7 @@ RSpec.describe Theaters::Theatre do
         hall :red, title: 'Красный зал', places: 100
       end
 
-      hall = theatre.instance_variable_get(:@halls).first
+      hall = theatre.halls.first
       expect(hall.class).to eq Theaters::TheatreHall
       expect(hall.color).to eq :red
       expect(hall.title).to eq 'Красный зал'
@@ -106,7 +106,7 @@ RSpec.describe Theaters::Theatre do
           end
         end
 
-        @period = @theatre.instance_variable_get(:@periods).select do |p|
+        @period = @theatre.periods.select do |p|
           p.time == ('09:00'..'11:00')
         end.first
       end
