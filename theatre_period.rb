@@ -26,5 +26,11 @@ module Theaters
     def self.hall(*halls)
       @hall = halls
     end
+
+    def intersects?(period2)
+      time2 = period2.time
+
+      (time.cover?(time2.begin) && time.end != time2.end) || (time.cover?(time2.end) && time.end != time2.begin)
+    end
   end
 end

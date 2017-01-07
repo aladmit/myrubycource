@@ -115,16 +115,8 @@ module Theaters
 
     def invalid_period?(period)
       periods = period.hall.map { |color| @periods.select { |p| p.hall.include?(color) } }.flatten
-      times = periods.map { |p| p.time }
-      check_period_in_times(period, times) || check_times_in_period(times, period.time)
-    end
-
-    def check_period_in_times(period, times)
-      times.any? { |time| time.cover?(period.time.begin) && time.cover?(period.time.end) }
-    end
-
-    def check_times_in_period(times, period_time)
-      times.any? { |time| period_time.cover?(time.begin) && period_time.cover?(time.end) }
+      periods << period
+      periods.combination(2).any? { |p1, p2| p1.intersects?(p2) }
     end
   end
 end
