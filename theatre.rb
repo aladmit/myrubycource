@@ -9,9 +9,6 @@ module Theaters
 
     attr_accessor :film, :start_time
 
-    @@halls ||= []
-    @@periods ||= []
-
     MORNING = 8..11
     MIDDLE = 12..16
     EVENING = 17..22
@@ -26,22 +23,26 @@ module Theaters
 
     def initialize(file = 'movies.txt', &block)
       super
-      self.class.class_eval(&block) if block_given?
+
+      @halls ||= []
+      @periods ||= []
+
+      instance_eval(&block) if block_given?
     end
 
-    def self.hall(color, title: nil, places: 0)
-      @@halls << Theaters::TheatreHall.new(color, title, places)
+    def hall(color, title: nil, places: 0)
+      @halls << Theaters::TheatreHall.new(color, title, places)
     end
 
-    def self.period(time, &block)
+    def period(time, &block)
       period = Theaters::TheatrePeriod.new(time, &block)
       raise InvalidPeriod if invalid_period?(period)
 
-      @@periods << period
+      @periods << period
     end
 
     def show(time = nil)
-      if @@periods.empty?
+      if @periods.empty?
         self.film = random_by_stars(filter_by_time(time))
       else
         self.film = random_by_stars(filter_by_period(time))
@@ -77,7 +78,7 @@ module Theaters
     end
 
     def filter_by_period(time)
-      period = @@periods.select { |p| p.time.cover?(time) }.sample
+      period = @periods.select { |p| p.time.cover?(time) }.sample
       filter(period.filters)
     end
 
@@ -111,10 +112,18 @@ module Theaters
       filter.map { |key, value| movie.matches?(key, value) }
     end
 
-    def self.invalid_period?(period)
-      periods = period.hall.map { |color| @@periods.select { |p| p.hall.include?(color) } }.flatten
+    def invalid_period?(period)
+      periods = period.hall.map { |color| @periods.select { |p| p.hall.include?(color) } }.flatten
       times = periods.map { |p| p.time }
+      check_period_in_times(period, times) || check_times_in_period(times, period.time)
+    end
+
+    def check_period_in_times(period, times)
       times.any? { |time| time.cover?(period.time.begin) && time.cover?(period.time.end) }
+    end
+
+    def check_times_in_period(times, period_time)
+      times.any? { |time| period_time.cover?(time.begin) && period_time.cover?(time.end) }
     end
   end
 end

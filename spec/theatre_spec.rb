@@ -86,7 +86,7 @@ RSpec.describe Theaters::Theatre do
         hall :red, title: 'Красный зал', places: 100
       end
 
-      hall = theatre.class.class_variable_get(:@@halls).first
+      hall = theatre.instance_variable_get(:@halls).first
       expect(hall.class).to eq Theaters::TheatreHall
       expect(hall.color).to eq :red
       expect(hall.title).to eq 'Красный зал'
@@ -100,13 +100,13 @@ RSpec.describe Theaters::Theatre do
 
           period '09:00'..'11:00' do
             description 'Утренний сеанс'
-            filters genre: 'Сomedy', year: 1900..1980
+            filters genre: 'Comedy', year: 1900..1980
             price 10
             hall :red, :blue
           end
         end
 
-        @period = @theatre.class.class_variable_get(:@@periods).select do |p|
+        @period = @theatre.instance_variable_get(:@periods).select do |p|
           p.time == ('09:00'..'11:00')
         end.first
       end
@@ -139,6 +139,10 @@ RSpec.describe Theaters::Theatre do
       it 'and get excpetion if period is cover other period' do
         expect do
           Theaters::Theatre.new do
+            period '10:00'..'11:00' do
+              hall :red
+            end
+
             period '10:00'..'10:30' do
               hall :red
             end
