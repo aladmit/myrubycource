@@ -93,9 +93,9 @@ RSpec.describe Theaters::Theatre do
       its(:places) { should eq 100 }
     end
 
-    context 'create period' do
-      before(:all) do
-        @theatre = Theaters::Theatre.new do
+    describe '#period' do
+      subject(:period) do
+        theatre = Theaters::Theatre.new do
           hall :red, title: 'Красный зал', places: 100
 
           period '09:00'..'11:00' do
@@ -106,35 +106,17 @@ RSpec.describe Theaters::Theatre do
           end
         end
 
-        @period = @theatre.periods.select do |p|
+        theatre.periods.select do |p|
           p.time == ('09:00'..'11:00')
         end.first
       end
 
-      it 'from class' do
-        expect(@period.class).to eq Theaters::TheatrePeriod
-      end
-
-      it 'with time' do
-        expect(@period.time).to eq '09:00'..'11:00'
-      end
-
-      it 'with description' do
-        expect(@period.description).to eq 'Утренний сеанс'
-      end
-
-      it 'with filters' do
-        expect(@period.filters[:year]).to eq 1900..1980
-        expect(@period.filters[:genre]).to eq 'Comedy'
-      end
-
-      it 'with price' do
-        expect(@period.price).to eq 10
-      end
-
-      it 'with halls' do
-        expect(@period.hall).to include(:red, :blue)
-      end
+      its(:class) { should eq Theaters::TheatrePeriod }
+      its(:time) { should eq '09:00'..'11:00' }
+      its(:description) { should eq 'Утренний сеанс' }
+      its(:filters) { should include year: 1900..1980, genre: 'Comedy' }
+      its(:price) { should eq 10 }
+      its(:hall) { should include :red, :blue }
 
       it 'and get excpetion if period is cover other period' do
         expect do
@@ -151,9 +133,9 @@ RSpec.describe Theaters::Theatre do
       end
     end
 
-    context '#show' do
-      before(:all) do
-        @theatre = Theaters::Theatre.new do
+    describe '#show' do
+      subject(:theatre) do
+        theatre = Theaters::Theatre.new do
           hall :green, title: 'Зеленый зал', places: 100
 
           period '11:00'..'16:00' do
@@ -166,13 +148,13 @@ RSpec.describe Theaters::Theatre do
       end
 
       it 'should use filters from periods' do
-        allow(@theatre).to receive(:filter_by_period).with('12:00').and_call_original
-        @theatre.show('12:00')
+        allow(theatre).to receive(:filter_by_period).with('12:00').and_call_original
+        theatre.show('12:00')
       end
     end
 
     it 'filter_by_period apply filters from period' do
-      @theatre = Theaters::Theatre.new do
+      theatre = Theaters::Theatre.new do
         hall :red, title: 'Красный зал', places: 100
 
         period '20:00'..'22:00' do
@@ -183,8 +165,8 @@ RSpec.describe Theaters::Theatre do
         end
       end
 
-      expect(@theatre).to receive(:filter).with(genre: 'Сomedy', year: 1900..1980).and_call_original
-      @theatre.filter_by_period('21:00')
+      expect(theatre).to receive(:filter).with(genre: 'Сomedy', year: 1900..1980).and_call_original
+      theatre.filter_by_period('21:00')
     end
   end
 end
