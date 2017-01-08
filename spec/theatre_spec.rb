@@ -1,6 +1,5 @@
 require 'spec_helper.rb'
 require './theatre.rb'
-require './theatre_hall.rb'
 require './theatre_period.rb'
 
 RSpec.describe Theaters::Theatre do
@@ -81,16 +80,17 @@ RSpec.describe Theaters::Theatre do
   end
 
   context 'dsl' do
-    it 'create hall' do
-      theatre = Theaters::Theatre.new do
-        hall :red, title: 'Красный зал', places: 100
+    describe '#hall' do
+      subject(:hall) do
+        Theaters::Theatre.new do
+          hall :red, title: 'Красный зал', places: 100
+        end.halls.first
       end
 
-      hall = theatre.halls.first
-      expect(hall.class).to eq Theaters::TheatreHall
-      expect(hall.color).to eq :red
-      expect(hall.title).to eq 'Красный зал'
-      expect(hall.places).to eq 100
+      its(:class) { should eq Struct::Hall }
+      its(:color) { should eq :red }
+      its(:title) { should eq 'Красный зал' }
+      its(:places) { should eq 100 }
     end
 
     context 'create period' do

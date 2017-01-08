@@ -1,6 +1,5 @@
 require './movies.rb'
 require './cashbox.rb'
-require './theatre_hall.rb'
 require './theatre_period.rb'
 
 module Theaters
@@ -22,6 +21,8 @@ module Theaters
                12..16 => 5,
                17..22 => 10 }.freeze
 
+    Struct.new("Hall", :color, :title, :places)
+
     def initialize(file = 'movies.txt', &block)
       super
 
@@ -32,7 +33,7 @@ module Theaters
     end
 
     def hall(color, title: nil, places: 0)
-      @halls << Theaters::TheatreHall.new(color, title, places)
+      @halls << Struct::Hall.new(color, title, places)
     end
 
     def period(time, &block)
