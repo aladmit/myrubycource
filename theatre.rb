@@ -1,6 +1,5 @@
 require './movies.rb'
 require './cashbox.rb'
-require './theatre_period.rb'
 
 module Theaters
   class Theatre < MovieCollection
@@ -37,7 +36,7 @@ module Theaters
     end
 
     def period(time, &block)
-      period = Theaters::TheatrePeriod.new(time, &block)
+      period = Theaters::Theatre::Period.new(time, &block)
       raise InvalidPeriod if invalid_period?(period)
 
       @periods << period
@@ -119,3 +118,5 @@ module Theaters
     end
   end
 end
+
+require './theatre_period.rb'

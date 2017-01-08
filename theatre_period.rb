@@ -1,37 +1,39 @@
 module Theaters
-  class TheatrePeriod
-    attr_reader :time, :description, :filters, :price, :hall
+  class Theatre
+    class Period
+      attr_reader :time, :description, :filters, :price, :hall
 
-    def initialize(time, &block)
-      @time = time
-      self.class.class_eval &block
+      def initialize(time, &block)
+        @time = time
+        instance_eval &block
+     end
 
-      self.class.instance_variables.each do |var|
-        instance_variable_set(var, self.class.instance_variable_get(var))
+      def description(description = nil)
+        return @description unless description
+        @description = description
       end
-    end
 
-    def self.description(description)
-      @description = description
-    end
+      def filters(hash = nil)
+        return @filters unless hash
+        @filters = hash
+      end
 
-    def self.filters(hash)
-      @filters = hash
-    end
+      def price(price = nil)
+        return @price unless price
+        @price = price
+      end
 
-    def self.price(price)
-      @price = price
-    end
+      def hall(*halls)
+        return @hall if halls.empty?
+        @hall = halls
+      end
 
-    def self.hall(*halls)
-      @hall = halls
-    end
+      def intersects?(period2)
+        if hall.any? { |color| period2.hall.include?(color) }
+          time2 = period2.time
 
-    def intersects?(period2)
-      if hall.any? { |color| period2.hall.include?(color) }
-        time2 = period2.time
-
-        (time.cover?(time2.begin) && time.end != time2.end) || (time.cover?(time2.end) && time.end != time2.begin)
+          (time.cover?(time2.begin) && time.end != time2.end) || (time.cover?(time2.end) && time.end != time2.begin)
+        end
       end
     end
   end

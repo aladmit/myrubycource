@@ -111,7 +111,7 @@ RSpec.describe Theaters::Theatre do
         end.first
       end
 
-      its(:class) { should eq Theaters::TheatrePeriod }
+      its(:class) { should eq Theaters::Theatre::Period }
       its(:time) { should eq '09:00'..'11:00' }
       its(:description) { should eq 'Утренний сеанс' }
       its(:filters) { should include year: 1900..1980, genre: 'Comedy' }
