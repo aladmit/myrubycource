@@ -87,7 +87,7 @@ RSpec.describe Theaters::Theatre do
         end.halls.first
       end
 
-      its(:class) { should eq Struct::Hall }
+      its(:class) { should eq Theaters::Theatre::Hall }
       its(:color) { should eq :red }
       its(:title) { should eq 'Красный зал' }
       its(:places) { should eq 100 }
