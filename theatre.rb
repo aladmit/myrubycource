@@ -115,9 +115,7 @@ module Theaters
     end
 
     def invalid_period?(period)
-      periods = period.hall.map { |color| @periods.select { |p| p.hall.include?(color) } }.flatten
-      periods << period
-      periods.combination(2).any? { |p1, p2| p1.intersects?(p2) }
+      [*@periods, period].combination(2).any? { |p1, p2| p1.intersects?(p2) }
     end
   end
 end

@@ -28,9 +28,11 @@ module Theaters
     end
 
     def intersects?(period2)
-      time2 = period2.time
+      if hall.any? { |color| period2.hall.include?(color) }
+        time2 = period2.time
 
-      (time.cover?(time2.begin) && time.end != time2.end) || (time.cover?(time2.end) && time.end != time2.begin)
+        (time.cover?(time2.begin) && time.end != time2.end) || (time.cover?(time2.end) && time.end != time2.begin)
+      end
     end
   end
 end
