@@ -23,8 +23,8 @@ module Theaters
     def initialize(file = 'movies.txt', &block)
       super
 
-      @halls ||= []
-      @periods ||= []
+      @halls = []
+      @periods = []
 
       instance_eval(&block) if block_given?
     end
