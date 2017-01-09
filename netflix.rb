@@ -1,7 +1,11 @@
 require './movies.rb'
 require './cashbox.rb'
 require './exeptions.rb'
-module Theaters class Netflix < MovieCollection
+require './movie_by_genre.rb'
+require './movie_by_country.rb'
+
+module Theaters
+  class Netflix < MovieCollection
     extend Cashbox
 
     attr_accessor :film, :start_time, :money
@@ -10,6 +14,14 @@ module Theaters class Netflix < MovieCollection
       super
       @money = 0
       @user_filters = {}
+    end
+
+    def by_genre
+      MovieByGenre.new(self)
+    end
+
+    def by_country
+      MovieByCountry.new(self)
     end
 
     def show(params = {})

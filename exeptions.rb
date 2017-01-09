@@ -28,3 +28,6 @@ class CallToPolice < Exception
     super('Мы вызываем полицию')
   end
 end
+
+class InvalidPeriod < Exception
+end

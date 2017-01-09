@@ -6,6 +6,7 @@ module Theaters
     include Cashbox
 
     attr_accessor :film, :start_time
+    attr_reader :halls, :periods
 
     MORNING = 8..11
     MIDDLE = 12..16
@@ -19,10 +20,34 @@ module Theaters
                12..16 => 5,
                17..22 => 10 }.freeze
 
-    def show(time = nil)
-      self.film = random_by_stars(filter_by_time(time))
-      self.start_time = Time.now
+    def initialize(file = 'movies.txt', &block)
+      super
 
+      @halls = []
+      @periods = []
+
+      instance_eval(&block) if block_given?
+    end
+
+    def hall(color, title: nil, places: 0)
+      @halls << Theaters::Theatre::Hall.new(color, title, places)
+    end
+
+    def period(time, &block)
+      period = Theaters::Theatre::Period.new(time, &block)
+      raise InvalidPeriod if invalid_period?(period)
+
+      @periods << period
+    end
+
+    def show(time = nil)
+      if @periods.empty?
+        self.film = random_by_stars(filter_by_time(time))
+      else
+        self.film = random_by_stars(filter_by_period(time))
+      end
+
+      self.start_time = Time.now
       "Now showing: #{film.title} #{start_time} - #{end_time}"
     end
 
@@ -49,6 +74,11 @@ module Theaters
       [MORNING, MIDDLE, EVENING].each do |part_of_day|
         return filter(FILTERS[part_of_day]) if part_of_day.include?(time)
       end
+    end
+
+    def filter_by_period(time)
+      period = @periods.select { |p| p.time.cover?(time) }.sample
+      filter(period.filters)
     end
 
     def cash
@@ -80,5 +110,12 @@ module Theaters
     def check_matches(filter, movie)
       filter.map { |key, value| movie.matches?(key, value) }
     end
+
+    def invalid_period?(period)
+      [*@periods, period].combination(2).any? { |p1, p2| p1.intersects?(p2) }
+    end
   end
 end
+
+require './theatre_period.rb'
+require './theatre_hall.rb'

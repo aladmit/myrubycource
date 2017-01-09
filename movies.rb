@@ -13,7 +13,7 @@ module Theaters
 
     def initialize(file = 'movies.txt')
       @films = CSV.read(file, col_sep: '|', headers: FIELDS).map do |line|
-        Movie.create(line.to_h, self)
+        Movie.create(line.to_h.merge(collection: self))
       end
     end
 
@@ -35,6 +35,7 @@ module Theaters
       if params.is_a? Array
         params.map { |hash| apply_filter(hash, movies) }.flatten.uniq
       else
+        raise if @films.nil?
         apply_filter(params, movies)
       end
     end

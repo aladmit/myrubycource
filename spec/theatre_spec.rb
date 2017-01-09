@@ -1,5 +1,6 @@
 require 'spec_helper.rb'
 require './theatre.rb'
+require './theatre_period.rb'
 
 RSpec.describe Theaters::Theatre do
   context '#show' do
@@ -75,6 +76,97 @@ RSpec.describe Theaters::Theatre do
       it 'get 10 dollars in evening' do
         expect { theatre.buy_ticket('17:40') }.to change { theatre.cash.cents }.by(10)
       end
+    end
+  end
+
+  context 'dsl' do
+    describe '#hall' do
+      subject(:hall) do
+        Theaters::Theatre.new do
+          hall :red, title: 'Красный зал', places: 100
+        end.halls.first
+      end
+
+      its(:class) { should eq Theaters::Theatre::Hall }
+      its(:color) { should eq :red }
+      its(:title) { should eq 'Красный зал' }
+      its(:places) { should eq 100 }
+    end
+
+    describe '#period' do
+      subject(:period) do
+        theatre = Theaters::Theatre.new do
+          hall :red, title: 'Красный зал', places: 100
+
+          period '09:00'..'11:00' do
+            description 'Утренний сеанс'
+            filters genre: 'Comedy', year: 1900..1980
+            price 10
+            hall :red, :blue
+          end
+        end
+
+        theatre.periods.select do |p|
+          p.time == ('09:00'..'11:00')
+        end.first
+      end
+
+      its(:class) { should eq Theaters::Theatre::Period }
+      its(:time) { should eq '09:00'..'11:00' }
+      its(:description) { should eq 'Утренний сеанс' }
+      its(:filters) { should include year: 1900..1980, genre: 'Comedy' }
+      its(:price) { should eq 10 }
+      its(:hall) { should include :red, :blue }
+
+      it 'and get excpetion if period is cover other period' do
+        expect do
+          Theaters::Theatre.new do
+            period '10:00'..'11:00' do
+              hall :red
+            end
+
+            period '10:00'..'10:30' do
+              hall :red
+            end
+          end
+        end.to raise_error(InvalidPeriod)
+      end
+    end
+
+    describe '#show' do
+      subject(:theatre) do
+        theatre = Theaters::Theatre.new do
+          hall :green, title: 'Зеленый зал', places: 100
+
+          period '11:00'..'16:00' do
+            description 'Спецпоказ Терминатора'
+            filters title: 'The Terminator'
+            price 50
+            hall :green
+          end
+        end
+      end
+
+      it 'should use filters from periods' do
+        allow(theatre).to receive(:filter_by_period).with('12:00').and_call_original
+        theatre.show('12:00')
+      end
+    end
+
+    it 'filter_by_period apply filters from period' do
+      theatre = Theaters::Theatre.new do
+        hall :red, title: 'Красный зал', places: 100
+
+        period '20:00'..'22:00' do
+          description 'Вечерний сеанс'
+          filters genre: 'Сomedy', year: 1900..1980
+          price 10
+          hall :red, :blue
+        end
+      end
+
+      expect(theatre).to receive(:filter).with(genre: 'Сomedy', year: 1900..1980).and_call_original
+      theatre.filter_by_period('21:00')
     end
   end
 end

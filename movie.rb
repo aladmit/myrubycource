@@ -1,49 +1,34 @@
+require 'virtus'
+require './virtus_attributes.rb'
+
 module Theaters
   class Movie
-    attr_accessor :url, :title, :year, :country, :date, :genre, :duration, :stars, :producer, :actors
+    include Virtus.model
 
-    def initialize(params, collection)
-      @url = params[:url]
-      @title = params[:title]
-      @year = params[:year].to_i
-      @country = params[:country]
-      @date = params[:date].split('-')
-      @genre = params[:genre].split(',')
-      @duration = params[:duration].to_i
-      @stars = params[:stars].to_i
-      @producer = params[:producer]
-      @actors = params[:actors].split(',')
-      @collection = collection
+    values do
+      attribute :url, String
+      attribute :title, String
+      attribute :year, Fixnum, strict: true
+      attribute :country, String
+      attribute :date, Date
+      attribute :genre, StrArray
+      attribute :duration, Duration, strict: true
+      attribute :stars, Fixnum, strict: true
+      attribute :producer, String
+      attribute :actors, StrArray
+      attribute :collection
     end
 
     def month
-      date[1]
-    end
-
-    def period
-      self.class.to_s.match(/(?<=Theaters::).*(?=Movie)/).to_s.downcase.to_sym
+      date.month
     end
 
     def price
       self.class::PRICE
     end
 
-    def self.create(fields, collection)
-      case fields[:year].to_i
-      when 1900..1945
-        AncientMovie
-      when 1946..1968
-        ClassicMovie
-      when 1969..2000
-        ModernMovie
-      when 2001..Time.new.year
-        NewMovie
-      end.new(fields, collection)
-    end
-
-    def genre?(name)
-      raise GenreDoesNotExist unless @collection.genres.include?(name)
-      genre.include?(name)
+    def period
+      self.class.to_s.match(/(?<=Theaters::).*(?=Movie)/).to_s.downcase.to_sym
     end
 
     def matches?(filter, value)
@@ -54,12 +39,26 @@ module Theaters
       end
     end
 
+    def self.create(fields)
+      case fields[:year].to_i
+      when 1900..1945
+        AncientMovie
+      when 1946..1968
+        ClassicMovie
+      when 1969..2000
+        ModernMovie
+      when 2001..Time.new.year
+        NewMovie
+      end.new(fields)
+    end
+
     def to_s
       "#{title}: #{producer} (#{date}; #{genre.join('/')}) - #{duration} min"
     end
 
-    def inspect
-      "#<Movie(title=#{title}, producer=#{producer}, date=#{date}, genres=#{genre.join('/')} duration=#{duration}, actors=#{actors})>"
+    def genre?(name)
+      raise GenreDoesNotExist unless @collection.genres.include?(name)
+      genre.include?(name)
     end
   end
 end
