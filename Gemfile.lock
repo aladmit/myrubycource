@@ -1,21 +1,27 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    crack (0.4.3)
+      safe_yaml (~> 1.0.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
     equalizer (0.0.11)
+    hashdiff (0.3.2)
     i18n (0.7.0)
     ice_nine (0.11.2)
     money (6.7.1)
       i18n (>= 0.6.4, <= 0.7.0)
       sixarm_ruby_unaccent (>= 1.1.1, < 2)
+    public_suffix (2.0.5)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -32,13 +38,19 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    safe_yaml (1.0.4)
     sixarm_ruby_unaccent (1.1.1)
     thread_safe (0.3.5)
+    vcr (3.0.3)
     virtus (1.0.5)
       axiom-types (~> 0.1)
       coercible (~> 1.0)
       descendants_tracker (~> 0.0, >= 0.0.3)
       equalizer (~> 0.0, >= 0.0.9)
+    webmock (2.3.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff
 
 PLATFORMS
   ruby
@@ -47,7 +59,9 @@ DEPENDENCIES
   money
   rspec
   rspec-its
+  vcr
   virtus
+  webmock
 
 BUNDLED WITH
    1.12.5
