@@ -1,4 +1,5 @@
 require 'spec_helper.rb'
+require './imdb_client.rb'
 
 RSpec.describe IMDBClient do
   let(:client) { IMDBClient.new }
@@ -17,7 +18,7 @@ RSpec.describe IMDBClient do
         list = client.movies_list
 
         expect(list.first[:title]).not_to be_empty
-        expect(list.first[:link]).no_to be_empty
+        expect(list.first[:link]).not_to be_empty
       end
     end
   end
