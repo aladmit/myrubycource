@@ -1,0 +1,502 @@
+---
+- :title: Побег из Шоушенка
+  :budget: "$25,000,000"
+- :title: Крёстный отец
+  :budget: "$6,000,000"
+- :title: Крёстный отец 2
+  :budget: "$13,000,000"
+- :title: Тёмный рыцарь
+  :budget: "$185,000,000"
+- :title: 12 рaзгневанных мужчин
+  :budget: "$350,000"
+- :title: Список Шиндлера
+  :budget: "$22,000,000"
+- :title: Криминальное чтиво
+  :budget: "$8,000,000"
+- :title: 'Властелин колец: Возвращение короля'
+  :budget: "$94,000,000"
+- :title: Хороший, плохой, злой
+  :budget: "$6,100,000"
+- :title: Бойцовский клуб
+  :budget: "$63,000,000"
+- :title: 'Властелин колец: Братство кольца'
+  :budget: "$93,000,000"
+- :title: 'Звёздные войны. Эпизод 5: Империя наносит ответный удар'
+  :budget: "$18,000,000"
+- :title: Форрест Гамп
+  :budget: "$55,000,000"
+- :title: Начало
+  :budget: "$160,000,000"
+- :title: 'Властелин колец: Две крепости'
+  :budget: "$94,000,000"
+- :title: One Flew Over the Cuckoo's Nest
+  :budget: "$112,000,000"
+- :title: Славные парни
+  :budget: "$25,000,000"
+- :title: Матрица
+  :budget: "$63,000,000"
+- :title: Семь самураев
+  :budget: "$21,830(USA)"
+- :title: 'Звёздные войны. Эпизод 4: Новая надежда'
+  :budget: "$11,000,000"
+- :title: Город Бога
+  :budget: "$3,300,000"
+- :title: Семь
+  :budget: "$33,000,000"
+- :title: Ла-Ла Ленд
+  :budget: "$30,000,000"
+- :title: Молчание ягнят
+  :budget: "$19,000,000"
+- :title: Эта замечательная жизнь
+  :budget: "£49,845(UK)"
+- :title: Подозрительные лица
+  :budget: "$6,000,000"
+- :title: Жизнь прекрасна
+  :budget: "$20,000,000"
+- :title: Леон
+  :budget: "$32,346,209"
+- :title: Унесённые призраками
+  :budget: "$1,052,197(France)"
+- :title: Спасти рядового Райана
+  :budget: "$70,000,000"
+- :title: Однажды на Диком Западе
+  :budget: ''
+- :title: Американская история Икс
+  :budget: "$7,500,000"
+- :title: Интерстеллар
+  :budget: "$165,000,000"
+- :title: Касабланка
+  :budget: "$950,000"
+- :title: Психо
+  :budget: "$32,000,000"
+- :title: Огни большого города
+  :budget: ''
+- :title: Зелёная миля
+  :budget: "$60,000,000"
+- :title: 'Индиана Джонс: В поисках утраченного ковчега'
+  :budget: "$18,000,000"
+- :title: 1+1
+  :budget: "€9,500,000"
+- :title: Modern Times
+  :budget: "$11,507(USA)"
+- :title: Окно во двор
+  :budget: "$15,172(USA)"
+- :title: Отступники
+  :budget: "$90,000,000"
+- :title: Пианист
+  :budget: "$35,000,000"
+- :title: 'Терминатор 2: Судный день'
+  :budget: "$102,000,000"
+- :title: Назад в будущее
+  :budget: "$19,000,000"
+- :title: Одержимость
+  :budget: "$3,300,000"
+- :title: Гладиатор
+  :budget: "$103,000,000"
+- :title: Помни
+  :budget: "$9,000,000"
+- :title: Апокалипсис сегодня
+  :budget: "$31,500,000"
+- :title: Престиж
+  :budget: "$40,000,000"
+- :title: Король Лев
+  :budget: "$45,000,000"
+- :title: Чужoй
+  :budget: "$11,000,000"
+- :title: Доктор Стрейнджлав, или Как я научился не волноваться и полюбил атомную
+    бомбу
+  :budget: "$1,800,000"
+- :title: Sunset Blvd.
+  :budget: ''
+- :title: Великий диктатор
+  :budget: ''
+- :title: Жизнь других
+  :budget: "$2,000,000"
+- :title: Nuovo Cinema Paradiso
+  :budget: "$5,000,000"
+- :title: Тропы славы
+  :budget: ''
+- :title: Могила светлячков
+  :budget: 'on'
+- :title: Джанго освобожденный
+  :budget: "$100,000,000"
+- :title: Сияние
+  :budget: "$19,000,000"
+- :title: ВАЛЛ-И
+  :budget: "$180,000,000"
+- :title: Красота по-американски
+  :budget: "$15,000,000"
+- :title: 'Тёмный рыцарь: Возрождение легенды'
+  :budget: "$250,000,000"
+- :title: Принцесса Мононокэ
+  :budget: "$144,446(USA)"
+- :title: Чужиe
+  :budget: "$18,500,000"
+- :title: Олдбой
+  :budget: "$3,000,000"
+- :title: Однажды в Америке
+  :budget: "$30,000,000"
+- :title: Гражданин Кейн
+  :budget: ''
+- :title: Подводная лодка
+  :budget: "$14,000,000"
+- :title: Свидетель обвинения
+  :budget: ''
+- :title: North by Northwest
+  :budget: ''
+- :title: Головокружение
+  :budget: "$1,486,818(USA)"
+- :title: 'Звёздные войны. Эпизод 6: Возвращение джедая'
+  :budget: "$32,500,000"
+- :title: М
+  :budget: "$28,877"
+- :title: Бешеные псы
+  :budget: "$1,200,000"
+- :title: Храброе сердце
+  :budget: "$75,600,000"
+- :title: Амели
+  :budget: FRF 77,000,000
+- :title: Реквием по мечте
+  :budget: "$4,500,000"
+- :title: Заводной апельсин
+  :budget: "£618,615(UK)"
+- :title: Таксист
+  :budget: "$1,300,000"
+- :title: Лоуренс Аравийский
+  :budget: "$15,000,000"
+- :title: Двойная страховка
+  :budget: "$927,262"
+- :title: Звёздочки на земле
+  :budget: "£66,204(UK)"
+- :title: Убить пересмешника
+  :budget: "$2,000,000"
+- :title: Вечное сияние чистого разума
+  :budget: "$20,000,000"
+- :title: 'История игрушек: Большой побег'
+  :budget: "$200,000,000"
+- :title: Мой отец и мой сын
+  :budget: "$959,727(Turkey)"
+- :title: Амадей
+  :budget: "$18,000,000"
+- :title: По соображениям совести
+  :budget: "$40,000,000"
+- :title: Цельнометаллическая оболочка
+  :budget: "$46,357,676"
+- :title: Афера
+  :budget: "$159,600,000"
+- :title: '2001 год: Космическая одиссея'
+  :budget: "$56,715,371"
+- :title: Похитители велосипедов
+  :budget: "$11,845(USA)"
+- :title: История игрушек
+  :budget: "$30,000,000"
+- :title: Поющие под дождём
+  :budget: ''
+- :title: Большой куш
+  :budget: "£6,000,000"
+- :title: Бесславные ублюдки
+  :budget: "$75,000,000"
+- :title: Малыш
+  :budget: "$2,500,000"
+- :title: Монти Пайтон и священный Грааль
+  :budget: "$45,487(USA)"
+- :title: Секреты Лос-Анджелеса
+  :budget: "$35,000,000"
+- :title: Три идиота
+  :budget: INR 550,000,000
+- :title: Per qualche dollaro in più
+  :budget: ''
+- :title: Лицо со шрамом
+  :budget: "$242,821(USA)"
+- :title: Расёмон
+  :budget: ''
+- :title: The Apartment
+  :budget: ''
+- :title: Охота
+  :budget: "$3,800,000"
+- :title: Индиана Джонс и последний крестовый поход
+  :budget: "$48,000,000"
+- :title: Умница Уилл Хантинг
+  :budget: "$10,000,000"
+- :title: Развод Надера и Симин
+  :budget: "$500,000"
+- :title: Metropolis
+  :budget: DEM 6,000,000
+- :title: Yôjinbô
+  :budget: 'on'
+- :title: Прибытие
+  :budget: "$47,000,000"
+- :title: Всё о Еве
+  :budget: "$10,177(USA)"
+- :title: 'Бэтмен: Начало'
+  :budget: "$150,000,000"
+- :title: В джазе только девушки
+  :budget: "$25,000,000"
+- :title: Вверх
+  :budget: "$175,000,000"
+- :title: Сокровища Сьерра-Мадре
+  :budget: ''
+- :title: Непрощённый
+  :budget: "$14,400,000"
+- :title: Бункер
+  :budget: "€13,500,000"
+- :title: Бешеный бык
+  :budget: "$13,568(USA)"
+- :title: The Third Man
+  :budget: "$449,191"
+- :title: Крепкий орешек
+  :budget: "$28,000,000"
+- :title: Дети небес
+  :budget: "$180,000"
+- :title: The Great Escape
+  :budget: ''
+- :title: Схватка
+  :budget: "$67,436,000"
+- :title: Chinatown
+  :budget: ''
+- :title: Головоломка
+  :budget: "$175,000,000"
+- :title: Лабиринт Фавна
+  :budget: "€13,500,000"
+- :title: Ikiru
+  :budget: "$55,240"
+- :title: Мой сосед Тоторо
+  :budget: ''
+- :title: On the Waterfront
+  :budget: "$910,000"
+- :title: Комната
+  :budget: "$13,000,000"
+- :title: Ran
+  :budget: "$3,567(USA)"
+- :title: The Gold Rush
+  :budget: ''
+- :title: Тайна в его глазах
+  :budget: "$2,000,000"
+- :title: The Bridge on the River Kwai
+  :budget: "$27,200,000"
+- :title: Бегущий по лезвию
+  :budget: "$28,000,000"
+- :title: Mr. Smith Goes to Washington
+  :budget: ''
+- :title: Седьмая печать
+  :budget: ''
+- :title: Ходячий замок
+  :budget: "$3,474,751(Japan)"
+- :title: Карты, деньги, два ствола
+  :budget: "£941,638(UK)"
+- :title: Казино
+  :budget: "$42,438,300"
+- :title: Бандит
+  :budget: ''
+- :title: Judgment at Nuremberg
+  :budget: ''
+- :title: Среда
+  :budget: 'on'
+- :title: Пожары
+  :budget: "$6,800,000"
+- :title: Игры разума
+  :budget: "$58,000,000"
+- :title: The General
+  :budget: ''
+- :title: Земляничная поляна
+  :budget: 'on'
+- :title: The Elephant Man
+  :budget: ''
+- :title: Воин
+  :budget: "$25,000,000"
+- :title: V значит Вендетта
+  :budget: "$54,000,000"
+- :title: Волк с Уолл-стрит
+  :budget: "$100,000,000"
+- :title: 'Sunrise: A Song of Two Humans'
+  :budget: ''
+- :title: La passion de Jeanne d'Arc
+  :budget: 'on'
+- :title: Гран Торино
+  :budget: "$33,000,000"
+- :title: Цвет шафрана
+  :budget: "$2,197,331"
+- :title: Хочу жениться на дочери миллионера
+  :budget: 'on'
+- :title: Горе-вымогатели
+  :budget: 'on'
+- :title: Большой Лебовски
+  :budget: "$5,533,844(USA)"
+- :title: Dial M for Murder
+  :budget: "$12,562(USA)"
+- :title: На игле
+  :budget: "$3,500,000"
+- :title: Tôkyô monogatari
+  :budget: 'on'
+- :title: Охотник на оленей
+  :budget: ''
+- :title: Унесённые ветром
+  :budget: "$3,977,000"
+- :title: Фарго
+  :budget: "$7,000,000"
+- :title: В поисках Немо
+  :budget: "$94,000,000"
+- :title: Шестое чувство
+  :budget: "$26,681,262(USA)"
+- :title: Хладнокровный Люк
+  :budget: ''
+- :title: Нечто
+  :budget: "$3,107,897(USA)"
+- :title: 'Братан Мунна: Продавец счастья'
+  :budget: ''
+- :title: Rebecca
+  :budget: ''
+- :title: Sholay
+  :budget: ''
+- :title: Старикам тут не место
+  :budget: "$25,000,000"
+- :title: Как приручить дракона
+  :budget: "$43,732,319(USA)"
+- :title: В диких условиях
+  :budget: "$15,000,000"
+- :title: Убить Билла
+  :budget: "$30,000,000"
+- :title: Мэри и Макс
+  :budget: AUD 8,240,000
+- :title: Исчезнувшая
+  :budget: "$61,000,000"
+- :title: И будет кровь
+  :budget: "$25,000,000"
+- :title: Idi i smotri
+  :budget: 'on'
+- :title: It Happened One Night
+  :budget: ''
+- :title: Life of Brian
+  :budget: "$26,376(USA)"
+- :title: Гонка
+  :budget: "$38,000,000"
+- :title: Отель Руанда
+  :budget: "$17,500,000"
+- :title: Platoon
+  :budget: "$6,000,000"
+- :title: Остров проклятых
+  :budget: "$80,000,000"
+- :title: 'Звёздные войны: Пробуждение Силы'
+  :budget: "$245,000,000"
+- :title: Network
+  :budget: ''
+- :title: Le salaire de la peur
+  :budget: 'on'
+- :title: Ночи Кабирии
+  :budget: "$752,045"
+- :title: В центре внимания
+  :budget: "$20,000,000"
+- :title: Останься со мной
+  :budget: "$8,000,000"
+- :title: Во имя отца
+  :budget: "$25,010,410"
+- :title: Дикие истории
+  :budget: "$3,300,000"
+- :title: Бутч Кэссиди и Санденс Кид
+  :budget: "$102,308,900"
+- :title: Les quatre cents coups
+  :budget: 'on'
+- :title: 'Безумный Макс: Дорога ярости'
+  :budget: "$150,000,000"
+- :title: The Maltese Falcon
+  :budget: ''
+- :title: 12 лет рабства
+  :budget: "$20,000,000"
+- :title: Ben-Hur
+  :budget: "$15,900,000"
+- :title: Отель Гранд Будапешт
+  :budget: "$25,000,000"
+- :title: Малышка на миллион
+  :budget: "$30,000,000"
+- :title: Персона
+  :budget: 'on'
+- :title: Сука любовь
+  :budget: "$2,000,000"
+- :title: Видимость
+  :budget: 'on'
+- :title: Принцесса-невеста
+  :budget: "$16,000,000"
+- :title: Парк юрского периода
+  :budget: "$63,000,000"
+- :title: 'Хатико: самый верный друг'
+  :budget: "$16,000,000"
+- :title: Воспоминания об убийстве
+  :budget: "$14,131"
+- :title: Навсикая из Долины ветров
+  :budget: ''
+- :title: Stalker
+  :budget: ''
+- :title: Шоу Трумана
+  :budget: "$60,000,000"
+- :title: The Grapes of Wrath
+  :budget: ''
+- :title: Touch of Evil
+  :budget: "$70,725(USA)"
+- :title: Перед рассветом
+  :budget: "$5,400,000"
+- :title: The Message
+  :budget: ''
+- :title: Annie Hall
+  :budget: "$4,000,000"
+- :title: Ганди
+  :budget: "$22,000,000"
+- :title: Рокки
+  :budget: "$117,235,247"
+- :title: 'Гарри Поттер и Дары смерти: Часть II'
+  :budget: "$125,000,000"
+- :title: Ультиматум Борна
+  :budget: "$110,000,000"
+- :title: Les diaboliques
+  :budget: 'on'
+- :title: Донни Дарко
+  :budget: "$4,500,000"
+- :title: Корпорация монстров
+  :budget: "$115,000,000"
+- :title: 8½
+  :budget: "$11,947(USA)"
+- :title: Пленницы
+  :budget: "$46,000,000"
+- :title: Волшебник страны Оз
+  :budget: "$2,800,000"
+- :title: Терминатор
+  :budget: "$6,400,000"
+- :title: Полет
+  :budget: "$2,715(USA)"
+- :title: Зверополис
+  :budget: "$150,000,000"
+- :title: День сурка
+  :budget: "$70,906,973"
+- :title: Поймай меня, если сможешь
+  :budget: "$52,000,000"
+- :title: 12 обезьян
+  :budget: "£1,320,430(UK)"
+- :title: 'Изгой-один. Звёздные войны: Истории'
+  :budget: "$200,000,000"
+- :title: Ненависть
+  :budget: "€2,590,000"
+- :title: Jaws
+  :budget: "$8,000,000"
+- :title: Barry Lyndon
+  :budget: ''
+- :title: The Best Years of Our Lives
+  :budget: "$23,650,000"
+- :title: Двойная рокировка
+  :budget: "$179,789(Japan)"
+- :title: Индия, вперед!
+  :budget: "$1,113,541"
+- :title: Strangers on a Train
+  :budget: "£23,764(UK)"
+- :title: La battaglia di Algeri
+  :budget: "$800,000"
+- :title: Собачий полдень
+  :budget: ''
+- :title: Город грехов
+  :budget: "$40,000,000"
+- :title: Kind Hearts and Coronets
+  :budget: 'on'
+- :title: Прислуга
+  :budget: "$25,000,000"
+- :title: Игра в имитацию
+  :budget: "$14,000,000"
+- :title: 'Пираты Карибского моря: Проклятие Чёрной жемчужины'
+  :budget: "$140,000,000"

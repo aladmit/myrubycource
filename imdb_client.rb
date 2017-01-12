@@ -38,6 +38,12 @@ class IMDBClient
   def parse_rated_movie(movie)
     element = movie.css('.titleColumn > a').first
 
-    { title: element.text, link: 'http://imdb.com' + element['href'] }
+    { id: parse_id(element['href']),
+      title: element.text,
+      link: 'http://imdb.com' + element['href'] }
+  end
+
+  def parse_id(href)
+    href.scan(/[a-z]{2}\d{6}/).first
   end
 end
