@@ -15,9 +15,14 @@ RSpec.describe IMDBClient do
         client.movies_list.select { |m| m[:title] == 'Побег из Шоушенка' }.first
       end
 
-      its([:id]) { should eq 'tt011116' }
+      its([:id]) { should eq 'tt0111161' }
       its([:title]) { should eq 'Побег из Шоушенка' }
-      its([:link]) { should include 'tt011116' }
+      its([:link]) { should include 'tt0111161' }
+      its([:poster]) { should include '.jpg' }
+
+      it 'titles' do
+        expect(movie[:titles]).to include 'AU' => 'The Shawshank Redemption - Stephen King'
+      end
     end
   end
 

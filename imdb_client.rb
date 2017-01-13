@@ -1,14 +1,17 @@
 require 'nokogiri'
 require 'open-uri'
 require 'ruby-progressbar'
+require 'themoviedb'
 
 class IMDBClient
+  Tmdb::Api.key('66dd6d4dec26548c02b70560ec20020f')
+
   def movies_list
     list ||= parse_movies_list
   end
 
   def movies_budgets
-    progressbar = ProgressBar.create(title: 'Prase movies', total: movies_list.count)
+    progressbar = ProgressBar.create(title: 'Get budgets', total: movies_list.count)
 
     budgets = movies_list.map do |movie|
       progressbar.increment
@@ -32,18 +35,39 @@ class IMDBClient
 
     movies = page.css('.lister .chart tbody tr')
 
-    movies.map { |movie| parse_rated_movie(movie) }
+    progress = ProgressBar.create(title: 'Parse movies', total: movies.count)
+
+    movies.map do |movie|
+      progress.increment
+      parse_rated_movie(movie)
+    end
   end
 
   def parse_rated_movie(movie)
     element = movie.css('.titleColumn > a').first
+    id = parse_id(element['href'])
 
-    { id: parse_id(element['href']),
+    { id: id,
       title: element.text,
-      link: 'http://imdb.com' + element['href'] }
+      link: 'http://imdb.com' + element['href'],
+      titles: titles(id),
+      poster: poster_url(id) }
   end
 
   def parse_id(href)
-    href.scan(/[a-z]{2}\d{6}/).first
+    href.scan(/(?<=\/title\/).*(?=\/)/).first
+  end
+
+  def titles(id)
+    Tmdb::Movie.alternative_titles(id)['titles'].map do |title|
+      [ title['iso_3166_1'].to_s, title['title'] ]
+    end.to_h
+  end
+
+  def poster_url(id)
+    base_url = Tmdb::Configuration.new.base_url
+    poster = Tmdb::Movie.detail(id)['poster_path']
+
+    base_url + 'original' + poster
   end
 end
