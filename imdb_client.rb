@@ -7,7 +7,7 @@ class IMDBClient
   Tmdb::Api.key('66dd6d4dec26548c02b70560ec20020f')
 
   def movies_list
-    list ||= parse_movies_list
+    @list ||= parse_movies_list
   end
 
   def movies_budgets
