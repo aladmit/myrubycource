@@ -3,7 +3,6 @@ require './imdb_client.rb'
 
 RSpec.describe IMDBClient do
   before(:all) { @client = IMDBClient.new }
-  let(:client) { IMDBClient.new }
 
   describe '#movies_list', vcr: { cassette_name: 'imdb/list' } do
     it 'should return all list of top rated movies' do
@@ -37,6 +36,33 @@ RSpec.describe IMDBClient do
 
       expect(yaml.first[:title]).to eq 'Побег из Шоушенка'
       expect(yaml.first[:budget]).to eq '$25,000,000'
+    end
+  end
+
+  describe '#save_page' do
+    before(:all) { @client.save_page }
+    let(:file) { 'results.html' }
+
+    it 'should create .html file' do
+      expect(file).to be_existing
+    end
+
+    it 'file sould contain titles' do
+      @client.movies_list.map do |movie|
+        expect(file).to have_file_content movie.title
+      end
+    end
+
+    it 'file should contain posters' do
+      @client.movies_list.map do |movie|
+        expect(file).to have_file_content movie.poster
+      end
+    end
+
+    it 'file should contain budget' do
+      @client.movies_list.map do |movie|
+        expect(file).to have_file_content movie.budget
+      end
     end
   end
 end
