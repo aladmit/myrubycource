@@ -1,8 +1,8 @@
 require 'spec_helper.rb'
-require './imdb_client.rb'
+require './mdb_client.rb'
 
-RSpec.describe IMDBClient do
-  before(:all) { @client = IMDBClient.new }
+RSpec.describe MDBClient do
+  before(:all) { @client = MDBClient.new }
 
   describe '#movies_list', vcr: { cassette_name: 'imdb/list' } do
     it 'should return all list of top rated movies' do

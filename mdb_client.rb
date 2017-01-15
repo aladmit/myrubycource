@@ -3,7 +3,7 @@ require 'open-uri'
 require 'ruby-progressbar'
 require 'themoviedb'
 
-class IMDBClient
+class MDBClient
   Tmdb::Api.key('66dd6d4dec26548c02b70560ec20020f')
 
   def movies_list
@@ -18,7 +18,7 @@ class IMDBClient
       { title: movie[:title], budget: parse_movie_budget(movie[:link]) }
     end
 
-    File.open('./budgets.yml', 'w') { |f| f.write(budgets.to_yaml) }
+    File.write'./budgets.yml', budgets.to_yaml
   end
 
   private
