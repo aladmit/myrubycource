@@ -2,12 +2,13 @@ require 'nokogiri'
 require 'open-uri'
 require 'ruby-progressbar'
 require 'themoviedb'
+require 'erb'
 
 class MDBClient
   Tmdb::Api.key('66dd6d4dec26548c02b70560ec20020f')
 
   def movies_list
-    @list ||= parse_movies_list
+    @movies_list ||= parse_movies_list
   end
 
   def movies_budgets
@@ -15,10 +16,18 @@ class MDBClient
 
     budgets = movies_list.map do |movie|
       progressbar.increment
-      { title: movie[:title], budget: parse_movie_budget(movie[:link]) }
+      budget = parse_movie_budget(movie[:link])
+
+      movie.merge!(budget: budget)
+      { title: movie[:title], budget: budget }
     end
 
-    File.write'./budgets.yml', budgets.to_yaml
+    File.write('./budgets.yml', budgets.to_yaml)
+  end
+
+  def save_page
+    template = ERB.new(File.read('result_template.html.erb'))
+    File.write('./results.html', template.result(binding()))
   end
 
   private
