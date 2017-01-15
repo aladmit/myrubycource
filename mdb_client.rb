@@ -5,7 +5,7 @@ require 'themoviedb'
 require 'erb'
 
 class MDBClient
-  Tmdb::Api.key('66dd6d4dec26548c02b70560ec20020f')
+  Tmdb::Api.key(YAML::load(File.read('config.yml'))['key'])
 
   def movies_list
     @movies_list ||= parse_movies_list
