@@ -12,14 +12,8 @@ class MDBClient
   end
 
   def movies_budgets
-    progressbar = ProgressBar.create(title: 'Get budgets', total: movies_list.count)
-
     budgets = movies_list.map do |movie|
-      progressbar.increment
-      budget = parse_movie_budget(movie[:link])
-
-      movie.merge!(budget: budget)
-      { title: movie[:title], budget: budget }
+      { title: movie[:title], budget: movie[:budget] }
     end
 
     File.write('./budgets.yml', budgets.to_yaml)
@@ -55,12 +49,14 @@ class MDBClient
   def parse_rated_movie(movie)
     element = movie.css('.titleColumn > a').first
     id = parse_id(element['href'])
+    link = 'http://imdb.com' + element['href']
 
     { id: id,
       title: element.text,
-      link: 'http://imdb.com' + element['href'],
+      link: link,
       titles: titles(id),
-      poster: poster_url(id) }
+      poster: poster_url(id),
+      budget: parse_movie_budget(link) }
   end
 
   def parse_id(href)
