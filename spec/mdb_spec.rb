@@ -9,7 +9,12 @@ RSpec.describe MDBClient, vcr: { cassette_name: 'mdbclient' } do
       expect(client.movies_list.length).to eq 250
     end
 
-    describe 'movie should contain' do
+    it 'should parse all 250 movies' do
+      expect(client).to receive(:parse_rated_movie).and_call_original.exactly(250).times
+      client.movies_list
+    end
+
+    describe 'movies should contain' do
       subject(:movie) do
         client.movies_list.select { |m| m[:title] == 'Побег из Шоушенка' }.first
       end

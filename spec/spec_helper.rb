@@ -1,6 +1,5 @@
 require 'rspec/its'
-require 'aruba/rspec'
-require_relative './matchers.rb'
+require_relative './support/matchers.rb'
 require_relative './support/vcr_setup.rb'
 
 RSpec.configure do |config|
