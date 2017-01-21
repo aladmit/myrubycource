@@ -7,8 +7,21 @@ require 'erb'
 class MDBClient
   Tmdb::Api.key(YAML::load(File.read('config.yml'))['key'])
 
-  def movies_list
-    @movies_list ||= parse_movies_list
+  attr_reader :movies_list
+
+  def load_list!(progress: true)
+    page = Nokogiri::HTML(open('http://www.imdb.com/chart/top'))
+
+    movies = page.css('.lister .chart tbody tr')
+
+    bar = ProgressBar.create(title: 'Load', total: movies.count) if progress
+
+    @movies_list =
+      movies.map do |movie|
+        bar.increment if progress
+
+        parse_rated_movie(movie)
+      end
   end
 
   def movies_budgets

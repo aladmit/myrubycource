@@ -4,18 +4,40 @@ require './mdb_client.rb'
 RSpec.describe MDBClient, vcr: { cassette_name: 'mdbclient' } do
   subject(:client) { MDBClient.new }
 
-  describe '#movies_list' do
-    it 'should return all list of top rated movies' do
-      expect(client.movies_list.length).to eq 250
+  describe '#load_list!' do
+    it 'should load movies list' do
+      expect(client).to receive(:parse_rated_movie).and_call_original.exactly(250).times
+
+      client.load_list!
     end
 
-    it 'should parse all 250 movies' do
-      expect(client).to receive(:parse_rated_movie).and_call_original.exactly(250).times
-      client.movies_list
+    it 'should show progress bar' do
+      fake_progress = ProgressBar.create(title: 'Load', total: 250)
+      expect(ProgressBar).to receive(:create).and_return(fake_progress)
+      expect(fake_progress).to receive(:increment).exactly(250).times
+
+      client.load_list!
+    end
+
+    it 'not show progress bar if has option' do
+      expect(ProgressBar).not_to receive(:create)
+      client.load_list!(progress: false)
+    end
+  end
+
+  describe '#movies_list' do
+    it 'empty before load list' do
+      expect(client.movies_list).to be_nil
+    end
+
+    it 'should contain movies after load_list' do
+      client.load_list!(progress: false)
+      expect(client.movies_list.length).to eq 250
     end
 
     describe 'movies should contain' do
       subject(:movie) do
+        client.load_list!(progress: false)
         client.movies_list.select { |m| m[:title] == 'Побег из Шоушенка' }.first
       end
 
