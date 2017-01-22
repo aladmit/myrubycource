@@ -1,10 +1,10 @@
 require 'spec_helper.rb'
 require './mdb_client.rb'
 
-RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
+RSpec.describe MDBClient do
   subject(:client) { MDBClient.new }
 
-  describe '#load_list!' do
+  describe '#load_list!', vcr: true do
     it 'should load movies list' do
       expect(client).to receive(:parse_rated_movie).and_call_original.exactly(250).times
 
@@ -25,7 +25,7 @@ RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
     end
   end
 
-  describe '#load_budgets' do
+  describe '#load_budgets', vcr: true do
     it 'dont use cache by default' do
       expect(client).not_to receive(:load_cache)
       expect(client).to receive(:parse_budgets)
@@ -42,7 +42,7 @@ RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
     end
   end
 
-  describe '#load_cache' do
+  describe '#load_cache', vcr: true do
     it 'should parse budgets if file does not exist' do
       expect(client).to receive(:parse_budgets)
 
@@ -61,20 +61,22 @@ RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
     end
   end
 
-  it '#parse_budgets should use #parse_budgets' do
-    expect(client).to receive(:parse_budget).exactly(250).times
+  describe '#parse_budgets', vcr: true do
+    it '#parse_budgets should use #parse_budgets' do
+      expect(client).to receive(:parse_budget).exactly(250).times
 
-    client.load_list!(progress: false)
-    client.parse_budgets
+      client.load_list!(progress: false)
+      client.parse_budgets
+    end
+
+    it '#parse_budget should return budget' do
+      link = 'http://www.imdb.com/title/tt0111161/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=2398042102&pf_rd_r=107B45XDPJTE1DK9GR1C&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_1'
+
+      expect(client.parse_budget(link)).to eq '$25,000,000'
+    end
   end
 
-  it '#parse_budget should return budget' do
-    link = 'http://www.imdb.com/title/tt0111161/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=2398042102&pf_rd_r=107B45XDPJTE1DK9GR1C&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_1'
-
-    expect(client.parse_budget(link)).to eq '$25,000,000'
-  end
-
-  describe '#movies_list' do
+  describe '#movies_list', vcr: true do
     it 'empty before load list' do
       expect(client.movies_list).to be_nil
     end
@@ -101,7 +103,7 @@ RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
     end
   end
 
-  describe '#save_page' do
+  describe '#save_page', vcr: true do
     subject(:file) do
       client.load_list!(progress: false)
       client.save_page(cache: 'budgets.yml')
@@ -120,13 +122,15 @@ RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
     end
 
     it 'file should contain posters' do
+      client.load_list!(progress: false)
       client.movies_list.map do |movie|
         expect(file).to include(movie[:poster])
       end
     end
 
     it 'file should contain budget' do
-      client.movies_list.map do |movie|
+      client.load_list!(progress: false)
+      client.load_budgets.map do |movie|
         expect(file).to include(movie[:budget])
       end
     end

@@ -55,7 +55,8 @@ class MDBClient
     template = ERB.new(File.read('result_template.html.erb'))
     budgets = load_budgets(cache: cache)
     movies = @movies_list.map do |movie|
-      budget = budgets.select { |b| b['id'] == movie['id'] }.first
+      budget = budgets.select { |b| b[:id] == movie[:id] }.first
+      budget = { budget: nil } if budget.nil?
       movie.merge!(budget: budget[:budget])
     end
 
