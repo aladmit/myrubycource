@@ -1,7 +1,7 @@
 require 'spec_helper.rb'
 require './mdb_client.rb'
 
-RSpec.describe MDBClient, vcr: { cassette_name: 'mdbclient' } do
+RSpec.describe MDBClient do #, vcr: { cassette_name: 'mdbclient' } do
   subject(:client) { MDBClient.new }
 
   describe '#load_list!' do
@@ -23,6 +23,55 @@ RSpec.describe MDBClient, vcr: { cassette_name: 'mdbclient' } do
       expect(ProgressBar).not_to receive(:create)
       client.load_list!(progress: false)
     end
+  end
+
+  describe '#load_budgets' do
+    it 'dont use cache by default' do
+      expect(client).not_to receive(:load_cache)
+      expect(client).to receive(:parse_budgets)
+
+      client.load_list!(progress: false)
+      client.load_budgets
+    end
+
+    it 'save budgets to file if cache: "file"' do
+      expect(client).to receive(:load_cache)
+      expect(client).to receive(:save_budgets)
+
+      client.load_budgets(cache: 'budgets.yml')
+    end
+  end
+
+  describe '#load_cache' do
+    it 'should parse budgets if file does not exist' do
+      expect(client).to receive(:parse_budgets)
+
+      client.load_list!(progress: false)
+      client.load_cache('example')
+    end
+
+    it 'should load from file' do
+      client.load_list!(progress: false)
+      client.load_budgets(cache: './spec/text.yml')
+
+      expect(client).not_to receive(:parse_budgets)
+
+      client.load_budgets(cache: './spec/text.yml')
+      File.delete('./spec/text.yml')
+    end
+  end
+
+  it '#parse_budgets should use #parse_budgets' do
+    expect(client).to receive(:parse_budget).exactly(250).times
+
+    client.load_list!(progress: false)
+    client.parse_budgets
+  end
+
+  it '#parse_budget should return budget' do
+    link = 'http://www.imdb.com/title/tt0111161/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=2398042102&pf_rd_r=107B45XDPJTE1DK9GR1C&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_1'
+
+    expect(client.parse_budget(link)).to eq '$25,000,000'
   end
 
   describe '#movies_list' do
@@ -52,34 +101,19 @@ RSpec.describe MDBClient, vcr: { cassette_name: 'mdbclient' } do
     end
   end
 
-  describe '#save_movies_budget' do
-    it 'should parse movies' do
-      expect(client).to receive(:parse_movie_budget).and_call_original.exactly(250).times
-      client.movies_budgets
-    end
-
-    it 'should save budgets to file' do
-      client.movies_budgets
-      yaml = YAML.load(File.open('./budgets.yml'))
-
-      expect(yaml.first[:title]).to eq 'Побег из Шоушенка'
-      expect(yaml.first[:budget]).to eq '$25,000,000'
-    end
-
-    it 'should add budget to movies' do
-      movie = client.movies_list.select { |m| m[:title] == 'Побег из Шоушенка' }.first
-      expect(movie[:budget]).to eq '$25,000,000'
-    end
-  end
-
   describe '#save_page' do
-    let(:file) { client.save_page && File.read('results.html') }
+    subject(:file) do
+      client.load_list!(progress: false)
+      client.save_page(cache: 'budgets.yml')
+      File.read('results.html')
+    end
 
     it 'should create .html file' do
       expect(file).not_to be_empty
     end
 
     it 'file sould contain titles' do
+      client.load_list!(progress: false)
       client.movies_list.each do |movie|
         expect(file).to include(movie[:titles]['US']) if movie[:titles].has_key?('US')
       end

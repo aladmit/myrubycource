@@ -11,7 +11,6 @@ class MDBClient
 
   def load_list!(progress: true)
     page = Nokogiri::HTML(open('http://www.imdb.com/chart/top'))
-
     movies = page.css('.lister .chart tbody tr')
 
     bar = ProgressBar.create(title: 'Load', total: movies.count) if progress
@@ -24,40 +23,53 @@ class MDBClient
       end
   end
 
-  def movies_budgets
-    budgets = movies_list.map do |movie|
-      { title: movie[:title], budget: movie[:budget] }
+  def load_budgets(cache: false)
+    if cache
+      budgets = load_cache(cache)
+      save_budgets(budgets, cache)
+    else
+      budgets = parse_budgets
     end
 
-    File.write('./budgets.yml', budgets.to_yaml)
+    budgets
   end
 
-  def save_page
+  def load_cache(file)
+    cache = YAML::load(File.read(file))
+    cache.empty? ? parse_budgets : cache
+  rescue
+    parse_budgets
+  end
+
+  def save_budgets(budgets, file)
+    File.write(file, budgets.to_yaml)
+  end
+
+  def parse_budgets
+    @movies_list.map do |movie|
+      { title: movie[:title], budget: parse_budget(movie[:link]), id: movie[:id] }
+    end
+  end
+
+  def save_page(cache: false, file: 'results.html')
     template = ERB.new(File.read('result_template.html.erb'))
-    File.write('./results.html', template.result(binding()))
+    budgets = load_budgets(cache: cache)
+    movies = @movies_list.map do |movie|
+      budget = budgets.select { |b| b['id'] == movie['id'] }.first
+      movie.merge!(budget: budget[:budget])
+    end
+
+    File.write(file, template.result(binding()))
   end
 
-  private
-
-  def parse_movie_budget(link)
+  def parse_budget(link)
     page = Nokogiri::HTML(open(link))
     page.css('#main_bottom #titleDetails').first
         .css('.txt-block')[6].children[2].text
         .gsub("\n", '').gsub(' ', '')
   end
 
-  def parse_movies_list
-    page = Nokogiri::HTML(open('http://www.imdb.com/chart/top'))
-
-    movies = page.css('.lister .chart tbody tr')
-
-    progress = ProgressBar.create(title: 'Parse movies', total: movies.count)
-
-    movies.map do |movie|
-      progress.increment
-      parse_rated_movie(movie)
-    end
-  end
+  private
 
   def parse_rated_movie(movie)
     element = movie.css('.titleColumn > a').first
@@ -68,8 +80,7 @@ class MDBClient
       title: element.text,
       link: link,
       titles: titles(id),
-      poster: poster_url(id),
-      budget: parse_movie_budget(link) }
+      poster: poster_url(id) }
   end
 
   def parse_id(href)
