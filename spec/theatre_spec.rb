@@ -1,5 +1,5 @@
 require 'spec_helper.rb'
-require './theatre.rb'
+require 'theaters'
 require './theatre_period.rb'
 
 RSpec.describe Theaters::Theatre do
