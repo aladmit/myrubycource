@@ -1,6 +1,5 @@
 require 'spec_helper.rb'
 require 'theaters'
-require './theatre_period.rb'
 
 RSpec.describe Theaters::Theatre do
   context '#show' do

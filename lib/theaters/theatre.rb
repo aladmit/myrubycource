@@ -117,5 +117,5 @@ module Theaters
   end
 end
 
-require './theatre_period.rb'
-require './theatre_hall.rb'
+require 'theaters/theatre/period'
+require 'theaters/theatre/hall'

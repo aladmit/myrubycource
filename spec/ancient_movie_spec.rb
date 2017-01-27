@@ -1,5 +1,5 @@
 require 'spec_helper.rb'
-require_relative '../movies.rb'
+require 'theaters'
 
 RSpec.describe Theaters::AncientMovie do
   let(:films) { Theaters::MovieCollection.new('./spec/movies.txt') }
