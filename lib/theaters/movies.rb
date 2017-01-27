@@ -1,9 +1,9 @@
 require 'csv'
-require './movie.rb'
-require './ancient_movie.rb'
-require './classic_movie.rb'
-require './modern_movie.rb'
-require './new_movie.rb'
+require 'theaters/movie'
+require 'theaters/movie/ancient'
+require 'theaters/movie/classic'
+require 'theaters/movie/modern'
+require 'theaters/movie/new'
 
 module Theaters
   class MovieCollection

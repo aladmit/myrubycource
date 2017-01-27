@@ -1,4 +1,4 @@
-require './movies.rb'
+require 'theaters/movies'
 require './cashbox.rb'
 
 module Theaters

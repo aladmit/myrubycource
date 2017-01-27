@@ -1,4 +1,4 @@
-require './movie.rb'
+require 'theaters/movie'
 
 module Theaters
   class ClassicMovie < Movie

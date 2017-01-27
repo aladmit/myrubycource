@@ -1,4 +1,4 @@
-require './movies.rb'
+require 'theaters/movies'
 require './cashbox.rb'
 require './exeptions.rb'
 require './movie_by_genre.rb'
