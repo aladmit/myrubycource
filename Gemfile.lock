@@ -17,6 +17,7 @@ GEM
     builder (3.2.3)
     childprocess (0.5.9)
       ffi (~> 1.0, >= 1.0.11)
+    coderay (1.1.1)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     contracts (0.14.0)
@@ -44,6 +45,7 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (0.7.0)
     ice_nine (0.11.2)
+    method_source (0.8.2)
     mini_portile2 (2.1.0)
     money (6.7.1)
       i18n (>= 0.6.4, <= 0.7.0)
@@ -53,6 +55,10 @@ GEM
     multi_xml (0.6.0)
     nokogiri (1.6.8.1)
       mini_portile2 (~> 2.1.0)
+    pry (0.10.4)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
     public_suffix (2.0.5)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
@@ -73,6 +79,7 @@ GEM
     ruby-progressbar (1.8.1)
     safe_yaml (1.0.4)
     sixarm_ruby_unaccent (1.1.1)
+    slop (3.6.0)
     themoviedb (1.0.1)
       httparty
     thor (0.19.4)
@@ -95,6 +102,7 @@ DEPENDENCIES
   aruba
   money
   nokogiri
+  pry
   rspec
   rspec-its
   ruby-progressbar

@@ -1,7 +1,7 @@
 require 'spec_helper.rb'
 require 'theaters'
 
-RSpec.describe Theaters::AncientMovie do
+RSpec.describe Theaters::Movie::Ancient do
   let(:films) { Theaters::MovieCollection.new('./spec/movies.txt') }
   subject(:movie) { films.filter(year: 1900..1945).first }
 

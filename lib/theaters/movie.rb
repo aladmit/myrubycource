@@ -28,7 +28,7 @@ module Theaters
     end
 
     def period
-      self.class.to_s.match(/(?<=Theaters::).*(?=Movie)/).to_s.downcase.to_sym
+      self.class.to_s.match(/(?<=Theaters::Movie::).*/).to_s.downcase.to_sym
     end
 
     def matches?(filter, value)
@@ -42,13 +42,13 @@ module Theaters
     def self.create(fields)
       case fields[:year].to_i
       when 1900..1945
-        AncientMovie
+        Movie::Ancient
       when 1946..1968
-        ClassicMovie
+        Movie::Classic
       when 1969..2000
-        ModernMovie
+        Movie::Modern
       when 2001..Time.new.year
-        NewMovie
+        Movie::New
       end.new(fields)
     end
 

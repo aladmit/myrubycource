@@ -1,7 +1,7 @@
 require 'theaters/movie'
 
 module Theaters
-  class ClassicMovie < Movie
+  class Movie::Classic < Movie
     PRICE = 1.5
 
     def to_s

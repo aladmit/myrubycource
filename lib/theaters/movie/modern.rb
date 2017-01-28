@@ -1,7 +1,7 @@
 require 'theaters/movie'
 
 module Theaters
-  class ModernMovie < Movie
+  class Movie::Modern < Movie
     PRICE = 3
 
     def to_s
