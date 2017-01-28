@@ -1,5 +1,5 @@
 require 'theaters/movies'
-require './cashbox.rb'
+require 'theaters/cashbox'
 
 module Theaters
   class Theatre < MovieCollection

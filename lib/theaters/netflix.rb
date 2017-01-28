@@ -1,5 +1,5 @@
 require 'theaters/movies'
-require './cashbox.rb'
+require 'theaters/cashbox'
 require './exeptions.rb'
 require './movie_by_genre.rb'
 require './movie_by_country.rb'

@@ -5,10 +5,10 @@ RSpec.describe Theaters::MovieCollection do
   subject(:films) { Theaters::MovieCollection.new('./spec/movies.txt') }
 
   describe 'movies has a 4 types' do
-    it_should_behave_like 'movie type', 1900..1945, Theaters::AncientMovie
-    it_should_behave_like 'movie type', 1946..1968, Theaters::ClassicMovie
-    it_should_behave_like 'movie type', 1969..2000, Theaters::ModernMovie
-    it_should_behave_like 'movie type', 2001..Time.new.year, Theaters::NewMovie
+    it_should_behave_like 'movie type', 1900..1945, Theaters::Movie::Ancient
+    it_should_behave_like 'movie type', 1946..1968, Theaters::Movie::Classic
+    it_should_behave_like 'movie type', 1969..2000, Theaters::Movie::Modern
+    it_should_behave_like 'movie type', 2001..Time.new.year, Theaters::Movie::New
   end
 
   describe 'filter' do
