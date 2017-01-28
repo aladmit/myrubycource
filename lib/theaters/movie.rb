@@ -1,5 +1,5 @@
 require 'virtus'
-require './virtus_attributes.rb'
+require 'theaters/virtus_attributes'
 
 module Theaters
   class Movie

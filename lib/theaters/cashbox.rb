@@ -1,4 +1,4 @@
-require './exeptions.rb'
+require 'theaters/exeptions'
 require 'money'
 
 I18n.enforce_available_locales = false
