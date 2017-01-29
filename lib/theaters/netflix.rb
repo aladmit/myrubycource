@@ -1,8 +1,6 @@
 require 'theaters/movies'
 require 'theaters/cashbox'
 require 'theaters/exeptions'
-require './movie_by_genre.rb'
-require './movie_by_country.rb'
 
 module Theaters
   class Netflix < MovieCollection
@@ -17,11 +15,11 @@ module Theaters
     end
 
     def by_genre
-      MovieByGenre.new(self)
+      Theaters::Netflix::ByGenre.new(self)
     end
 
     def by_country
-      MovieByCountry.new(self)
+      Theaters::Netflix::ByCountry.new(self)
     end
 
     def show(params = {})
@@ -90,3 +88,6 @@ module Theaters
     end
   end
 end
+
+require 'theaters/netflix/by_genre'
+require 'theaters/netflix/by_country'
