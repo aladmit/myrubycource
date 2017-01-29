@@ -2,6 +2,10 @@
 
 Theaters is a lib that provides a functional of Theatre and Netflix.
 
+## WARNING
+
+Its a joke! You should not use it! Its only for my ruby course!
+
 ## Usage
 
 ### Theatre
