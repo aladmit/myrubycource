@@ -1,5 +1,5 @@
 require 'spec_helper.rb'
-require_relative '../netflix.rb'
+require 'theaters'
 
 RSpec.describe Theaters::Netflix do
   subject(:netflix) { Theaters::Netflix.new('./spec/movies.txt') }
@@ -69,7 +69,7 @@ RSpec.describe Theaters::Netflix do
   context 'get movies' do
     context 'by genre' do
       it 'should return MovieByGenre class' do
-        expect(netflix.by_genre.class).to eq MovieByGenre
+        expect(netflix.by_genre.class).to eq Theaters::Netflix::ByGenre
       end
 
       ['comedy', 'drama', 'action', 'biography', 'history'].each do |genre|
@@ -81,7 +81,7 @@ RSpec.describe Theaters::Netflix do
 
     context 'by country' do
       it 'should return MovieByCountry class' do
-        expect(netflix.by_country.class).to eq MovieByCountry
+        expect(netflix.by_country.class).to eq Theaters::Netflix::ByCountry
       end
 
       ['use', 'canada'].each do |country|

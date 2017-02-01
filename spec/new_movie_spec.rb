@@ -1,7 +1,7 @@
 require 'spec_helper.rb'
-require_relative '../movies.rb'
+require 'theaters'
 
-RSpec.describe Theaters::NewMovie do
+RSpec.describe Theaters::Movie::New do
   before { @films = Theaters::MovieCollection.new('./spec/movies.txt') }
   subject(:movie) { @films.filter(year: 2001...Time.new.year)[0] }
 

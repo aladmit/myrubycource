@@ -1,5 +1,5 @@
 require 'spec_helper.rb'
-require './cashbox.rb'
+require 'theaters/cashbox'
 require 'money'
 
 class Test

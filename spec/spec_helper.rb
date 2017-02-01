@@ -1,4 +1,6 @@
 require 'rspec/its'
+require 'theaters'
+require 'webmock/rspec'
 require_relative './support/matchers.rb'
 require_relative './support/vcr_setup.rb'
 
@@ -14,10 +16,8 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
 
-require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
 
-require './netflix.rb'
 RSpec.shared_examples 'movie type' do |years, movie_class|
   it "with #{movie_class} from #{years.first} to #{years.last}" do
     array_of_classes = films.filter(year: years).collect(&:class).uniq

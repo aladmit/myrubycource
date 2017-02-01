@@ -1,6 +1,5 @@
 require 'spec_helper.rb'
-require './theatre.rb'
-require './theatre_period.rb'
+require 'theaters'
 
 RSpec.describe Theaters::Theatre do
   context '#show' do
@@ -29,7 +28,7 @@ RSpec.describe Theaters::Theatre do
     subject(:theatre) { Theaters::Theatre.new('./spec/movies.txt') }
 
     it 'return ancient film in the morning' do
-      expect(movies_at(8..11)).to all be_a(Theaters::AncientMovie)
+      expect(movies_at(8..11)).to all be_a(Theaters::Movie::Ancient)
     end
 
     it 'return Comedy and Action in the middle of day' do
