@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/theaters'
+require_relative '../lib/theaters/cli'
+Theaters::CLI.start(ARGV)
